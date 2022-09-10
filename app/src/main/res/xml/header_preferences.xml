@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress DeprecatedClassUsageInspection -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference
+        android:summary="@string/app_name_summary"
+        android:title="@string/app_name_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://github.com/chsbuffer" />
+    </Preference>
+    <Preference
+        android:summary="@string/telegram_group_summary"
+        android:title="@string/telegram_group_title">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:data="https://t.me/miuiqol" />
+    </Preference>
+</PreferenceScreen>

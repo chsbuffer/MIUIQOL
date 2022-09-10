@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress DeprecatedClassUsageInspection -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference />
+    <Preference
+        android:key="warn"
+        android:summary="@string/module_not_enabled_summary"
+        android:title="@string/module_not_enabled_title" />
+</PreferenceScreen>

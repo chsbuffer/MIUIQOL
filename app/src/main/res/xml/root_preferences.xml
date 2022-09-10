@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?><!--suppress DeprecatedClassUsageInspection -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <Preference android:summary="@string/kill_app_to_apply_summary" />
+    <PreferenceCategory android:title="@string/security_center_app_name">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="behavior_record_enhance"
+            android:singleLineTitle="false"
+            android:summary="@string/behavior_record_enhance_summary"
+            android:title="@string/behavior_record_enhance_title" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="behavior_record_enhance"
+            android:key="behavior_record_system_app_whitelist"
+            android:singleLineTitle="false"
+            android:summary="@string/behavior_record_system_app_whitelist_summary"
+            android:title="@string/behavior_record_system_app_whitelist_title" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:enabled="false"
+            android:key="system_app_wlan_control"
+            android:singleLineTitle="false"
+            android:summary="@string/system_app_wlan_control_summary"
+            android:title="@string/system_app_wlan_control_title" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:enabled="false"
+            android:key="enable_all_text_view"
+            android:singleLineTitle="false"
+            android:summary="@string/enable_all_text_view_summary"
+            android:title="@string/enable_all_text_view_title" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="lock_one_hundred"
+            android:singleLineTitle="false"
+            android:summary="@string/lock_one_hundred_summary"
+            android:title="@string/lock_one_hundred_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/system_launcher_app_name">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="restore_google_icon"
+            android:singleLineTitle="false"
+            android:summary="@string/restore_google_icon_summary"
+            android:title="@string/restore_google_icon_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/system_ui_app_name">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="restore_nearby_sharing_tile"
+            android:singleLineTitle="false"
+            android:summary="@string/restore_nearby_sharing_tile_summary"
+            android:title="@string/restore_nearby_sharing_tile_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/screenshot_app_name">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="save_to_pictures"
+            android:singleLineTitle="false"
+            android:title="@string/save_to_pictures_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/screen_recorder_app_name">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="save_to_movies"
+            android:singleLineTitle="false"
+            android:title="@string/save_to_movies_app_name" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/ai_translate_app_name">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="support_ai_subtitles"
+            android:singleLineTitle="false"
+            android:summary="@string/support_ai_subtitles_summary"
+            android:title="@string/support_ai_subtitles_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/system_update_app_name">
+        <SwitchPreference
+            android:key="remove_ota_validate"
+            android:singleLineTitle="false"
+            android:summary="@string/remove_ota_validate_summary"
+            android:title="@string/remove_ota_validate_title" />
+    </PreferenceCategory>
+</PreferenceScreen>

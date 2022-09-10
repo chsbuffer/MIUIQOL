@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="kill_app_to_apply_summary">更改设置后强行停止对应应用后功能生效。</string>
+    <string name="security_center_app_name">手机管家</string>
+    <string name="behavior_record_enhance_title">应用行为记录增强</string>
+    <string name="behavior_record_enhance_summary">查看应用行为记录不过滤白名单应用、系统应用。</string>
+    <string name="system_app_wlan_control_title">系统应用 WLAN 联网控制</string>
+    <string name="system_app_wlan_control_summary">- 阻止手机管家自行恢复系统应用 WLAN 联网\n- 显示系统应用联网控制 WLAN 联网开关\n\n要查看系统应用联网控制，请前往手机管家 万能工具箱-应用联网控制-(数据)-系统应用，在列表中点击要设置的应用。</string>
+    <string name="enable_all_text_view_title">启用所有 TextView</string>
+    <string name="enable_all_text_view_summary">- 启用系统应用 WLAN 联网控制开关\n- 跳过警告时间（自行无视倒计时数字）\n- ……\n\n*为不可预见的后果做好准备。</string>
+    <string name="lock_one_hundred_title">体检分数锁定 100 分</string>
+    <string name="lock_one_hundred_summary">同 WooBox for MIUI 锁定100分</string>
+    <string name="system_launcher_app_name">系统桌面</string>
+    <string name="restore_google_icon_title">阻止系统桌面隐藏 Google 桌面图标</string>
+    <string name="screenshot_app_name">截图</string>
+    <string name="save_to_pictures_title">截图保存到 Pictures/Screenshots</string>
+    <string name="screen_recorder_app_name">屏幕录制</string>
+    <string name="save_to_movies_app_name">视频保存到 Movies/ScreenRecorder</string>
+    <string name="ai_translate_app_name">小爱翻译</string>
+    <string name="support_ai_subtitles_title">强制启用 AI字幕</string>
+    <string name="support_ai_subtitles_summary">只能识别翻译中文、英文。</string>
+    <string name="system_update_app_name">系统更新</string>
+    <string name="remove_ota_validate_title">移除 OTA 验证</string>
+    <string name="remove_ota_validate_summary">同 WooBox for MIUI 移除 OTA 验证。\n- 仅支持VAB系列使用，其余系列请不要开启。\n- 无需内测试资格即可刷入完整内测包。\n- 拥有内测权限的用户将无法接收内测更新\n可用于屏蔽系统更新。\n- 跨版本类型升级后，建议清空数据。\n- 不支持非官方ROM使用。\n\n*为不可预见的后果做好准备。</string>
+    <string name="telegram_group_title">Telegram 群组</string>
+    <string name="telegram_group_summary">点击加入 MIUI QOL Telegram 群组</string>
+    <string name="app_name_title">MIUI 生活质量提升</string>
+    <string name="app_name_summary">MIUI QOL\n由 ChsBuffer 随便做做</string>
+    <string name="app_description">MIUI 生活质量提升</string>
+    <string name="restore_google_icon_summary">国际版 MIUI 不需要。</string>
+    <string name="module_not_enabled_summary">已经启用？点此结束运行，然后再次打开模块设置</string>
+    <string name="module_not_enabled_title">模块尚未启用！</string>
+    <string name="system_ui_app_name">系统界面</string>
+    <string name="restore_nearby_sharing_tile_title">阻止系统界面隐藏附近分享快速设置磁贴</string>
+    <string name="restore_nearby_sharing_tile_summary">国际版 MIUI 不需要。</string>
+    <string name="behavior_record_system_app_whitelist_title">应用行为记录系统应用白名单</string>
+    <string name="behavior_record_system_app_whitelist_summary">将部分系统应用列入白名单，防止隐私信息保护通知吓到不知道如何关闭它们的用户。</string>
+</resources>

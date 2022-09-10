@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="kill_app_to_apply_summary">Принудительно остановить соответствующее приложение для применения настроек.</string>
+    <string name="security_center_app_name">Безопасность MIUI</string>
+    <string name="behavior_record_enhance_title">Улучшение поведения записи приложений</string>
+    <string name="behavior_record_enhance_summary">Просмотр всех действий приложений. Не фильтрует приложения и системные приложения из белого списка.</string>
+    <string name="system_app_wlan_control_title">Настройка WLAN системных приложений</string>
+    <string name="system_app_wlan_control_summary">- Запретить приложению \"Безопасность MIUI\" восстанавливать настройки WLAN-подключения системных приложений\n- Отображение настроек WLAN в системных приложениях\n\nЧтобы проверить сетевые настройки системных приложений, перейдите в Инструменты приложения Безопасность - Сетевые настройки приложений - (Мобильные данные) - Системные приложения и нажмите на приложение в списке.</string>
+    <string name="enable_all_text_view_title">Включить все текстовые представления (TextView)</string>
+    <string name="enable_all_text_view_summary">- Включение настройки WLAN для системных приложений\n- Пропускать время предупреждения (самостоятельно игнорировать цифры обратного отсчета)\n- ……\n\n*Приготовьтесь к непредвиденным последствиям.</string>
+    <string name="lock_one_hundred_title">Установить 100 баллов в приложении Безопасность MIUI</string>
+    <string name="lock_one_hundred_summary">Так же, как и WooBox для MIUI, установка 100 баллов для приложения Безопасность MIUI</string>
+    <string name="system_launcher_app_name">Рабочий стол MIUI</string>
+    <string name="restore_google_icon_title">Предотвращение скрытия ярлыка Google в System Launcher</string>
+    <string name="screenshot_app_name">Скриншот</string>
+    <string name="save_to_pictures_title">Сохранять скриншоты по пути Pictures/Screenshots</string>
+    <string name="screen_recorder_app_name">Запись экрана</string>
+    <string name="save_to_movies_app_name">Сохранять видео по пути Movies/ScreenRecorder</string>
+    <string name="ai_translate_app_name">Mi AI Translator</string>
+    <string name="support_ai_subtitles_title">Принудительная поддержка AI субтитров</string>
+    <string name="support_ai_subtitles_summary">Можно перевести или переписать только китайский и английский языки.</string>
+    <string name="system_update_app_name">Updater</string>
+    <string name="remove_ota_validate_title">Удалить проверку OTA</string>
+    <string name="remove_ota_validate_summary">Так же, как WooBox для MIUI * Удаление проверки OTA.\n- Поддерживает только использование серии VAB, пожалуйста, не используйте на другие серии.\n- Нет необходимости в том, чтобы квалификация внутреннего тестирования была включена в полный пакет внутреннего тестирования.\n- Те, у кого есть разрешение на внутреннее тестирование, не смогут получать обновления для внутреннего тестирования, и могут быть использованы для блокировки обновлений системы.\n- После обновления типа кросс-версии рекомендуется очистить данные.\n- Неофициальные прошивки не поддерживаются.\n\n*Приготовьтесь к непредвиденным последствиям.</string>
+    <string name="telegram_group_title">Группа Telegram</string>
+    <string name="telegram_group_summary">Присоединиться к группе MIUI QOL в Telegram</string>
+    <string name="app_name_title">Улучшение качества жизни MIUI</string>
+    <string name="app_name_summary">MIUI QOL\nАвтор: ChsBuffer\nПеревел @majestics_translation</string>
+    <string name="app_description">Улучшение качества жизни MIUI</string>
+    <string name="restore_google_icon_summary">Только китайская версия MIUI.</string>
+    <string name="module_not_enabled_summary">Уже включен? Нажмите здесь, чтобы остановить модуль, затем снова откройте настройки модуля.</string>
+    <string name="module_not_enabled_title">Модуль не включен!</string>
+    <string name="system_ui_app_name">SystemUI</string>
+    <string name="restore_nearby_sharing_tile_title">Запрет на скрытие в SystemUI плитки быстрых настроек Nearby Sharing</string>
+    <string name="restore_nearby_sharing_tile_summary">Только китайская версия MIUI.</string>
+    <string name="behavior_record_system_app_whitelist_title">Белый список параметров записи системных приложений</string>
+    <string name="behavior_record_system_app_whitelist_summary">Внести в белый список некоторые системные приложения, чтобы уведомления о защите конфиденциальности не пугали пользователей, которые не знают, как их отключить.</string>
+</resources>
