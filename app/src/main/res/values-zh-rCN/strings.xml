@@ -35,4 +35,8 @@
     <string name="restore_nearby_sharing_tile_summary">国际版 MIUI 不需要。</string>
     <string name="behavior_record_system_app_whitelist_title">应用行为记录系统应用白名单</string>
     <string name="behavior_record_system_app_whitelist_summary">将部分系统应用列入白名单，防止隐私信息保护通知吓到不知道如何关闭它们的用户。</string>
+    <string name="original_default_open_setting_title">将应用详情中“消除默认操作”改为“默认打开”设置</string>
+    <string name="open_by_default">默认打开</string>
+    <string name="app_link_open_always">允许应用打开支持的链接</string>
+    <string name="app_link_open_never">不允许应用打开链接</string>
 </resources>

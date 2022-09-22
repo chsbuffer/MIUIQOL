@@ -9,7 +9,7 @@ object RemoveOTAValidate : Hook() {
         if (!xPrefs.getBoolean("remove_ota_validate", false))
             return
 
-        val (clazzName, methodName) = UpdaterStartup.version.let {
+        val (clazzName, methodName) = UpdaterHost.version.let {
             when {
                 else -> Pair("i", "T")
             }

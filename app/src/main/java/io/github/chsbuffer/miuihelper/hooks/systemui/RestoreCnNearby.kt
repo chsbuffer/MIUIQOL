@@ -1,4 +1,4 @@
-package io.github.chsbuffer.miuihelper.hooks.msystemui
+package io.github.chsbuffer.miuihelper.hooks.systemui
 
 import android.content.pm.ApplicationInfo
 import de.robv.android.xposed.XC_MethodHook
@@ -7,7 +7,6 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
-
 
 object RestoreCnNearby : Hook() {
     var isHooked = false

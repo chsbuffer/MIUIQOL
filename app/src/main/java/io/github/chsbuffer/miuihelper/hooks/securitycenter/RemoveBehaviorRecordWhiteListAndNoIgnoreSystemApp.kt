@@ -13,7 +13,7 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
             return
         // 去除照明弹行为记录白名单
 
-        val clazzName = Startup.version.let {
+        val clazzName = SecurityHost.version.let {
             when {
                 it >= 40000714 -> "e"
                 else -> "d"
@@ -108,7 +108,7 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
         }
 
         when {
-            Startup.version >= 40000714 -> {
+            SecurityHost.version >= 40000714 -> {
                 XposedHelpers.findAndHookMethod(
                     clazz, "a",
                     Context::class.java,

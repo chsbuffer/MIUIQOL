@@ -5,6 +5,7 @@ package io.github.chsbuffer.miuihelper
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import android.preference.Preference
 import android.preference.Preference.OnPreferenceChangeListener
@@ -49,6 +50,12 @@ class SettingsActivity : Activity() {
             addPreferencesFromResource(R.xml.root_preferences)
 
             findPreference("behavior_record_enhance").onPreferenceChangeListener = this
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                val originalDefaultOpenSettingPreference = findPreference("original_default_open_setting")
+                originalDefaultOpenSettingPreference.parent!!.removePreference(
+                    originalDefaultOpenSettingPreference
+                )
+            }
         }
 
         @Deprecated("Deprecated in Java")

@@ -31,6 +31,11 @@
             android:title="@string/enable_all_text_view_title" />
         <SwitchPreference
             android:defaultValue="true"
+            android:key="original_default_open_setting"
+            android:singleLineTitle="false"
+            android:title="@string/original_default_open_setting_title" />
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="lock_one_hundred"
             android:singleLineTitle="false"
             android:summary="@string/lock_one_hundred_summary"

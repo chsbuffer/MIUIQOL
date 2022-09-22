@@ -5,7 +5,7 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.Hook
 
-
+// DO_NOT_USE_OR_YOU_WILL_BE_FIRED
 object FixAlbum : Hook() {
     override fun init(classLoader: ClassLoader) {
         XposedHelpers.findAndHookMethod(
