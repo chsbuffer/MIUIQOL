@@ -9,20 +9,23 @@ import io.github.chsbuffer.miuihelper.model.Hook
 
 object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
     override fun init(classLoader: ClassLoader) {
-        if (!xPrefs.getBoolean("behavior_record_enhance", true))
-            return
+        if (!xPrefs.getBoolean("behavior_record_enhance", true)) return
         // 去除照明弹行为记录白名单
 
-        val clazzName = SecurityHost.version.let {
-            when {
-                it >= 40000714 -> "e"
-                else -> "d"
+        val clazzName = when {
+            SecurityHost.isDev -> {
+                when  {
+                    SecurityHost.version >= 40000722 -> "f"
+                    SecurityHost.version >= 40000714 -> "e"
+                    else->"e"
+                }
             }
+            else -> "d"
         }
 
+
         val clazz = XposedHelpers.findClass(
-            "com.miui.permcenter.privacymanager.behaviorrecord.$clazzName",
-            classLoader
+            "com.miui.permcenter.privacymanager.behaviorrecord.$clazzName", classLoader
         )
 
         /*弃用：只 nop 不读取白名单（云端+内置）
@@ -38,7 +41,8 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
 
         // 不读取白名单（云端+内置）
         XposedHelpers.findAndHookMethod(
-            clazz, "a",
+            clazz,
+            "a",
             Context::class.java,
             Boolean::class.javaPrimitiveType,
             XC_MethodReplacement.returnConstant(null)
@@ -108,9 +112,10 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
         }
 
         when {
-            SecurityHost.version >= 40000714 -> {
+            SecurityHost.isDev && SecurityHost.version >= 40000714 -> {
                 XposedHelpers.findAndHookMethod(
-                    clazz, "a",
+                    clazz,
+                    "a",
                     Context::class.java,
                     String::class.java,
                     Int::class.javaPrimitiveType,
@@ -120,11 +125,11 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
             }
             else -> {
                 XposedHelpers.findAndHookMethod(
-                    clazz, "a",
+                    clazz,
+                    "a",
                     Context::class.java,
                     String::class.java,
                     Int::class.javaPrimitiveType,
-                    Boolean::class.javaPrimitiveType,
                     checkHook
                 )
             }

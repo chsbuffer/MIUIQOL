@@ -35,7 +35,8 @@
     <string name="restore_nearby_sharing_tile_summary">Только китайская версия MIUI.</string>
     <string name="behavior_record_system_app_whitelist_title">Белый список параметров записи системных приложений</string>
     <string name="behavior_record_system_app_whitelist_summary">Внести в белый список некоторые системные приложения, чтобы уведомления о защите конфиденциальности не пугали пользователей, которые не знают, как их отключить.</string>
+    <string name="original_default_open_setting_title">Изменить информацию о приложении «Очистить по умолчанию» на «Открыть по умолчанию»</string>
+    <string name="open_by_default">Открывать по умолчанию</string>
     <string name="app_link_open_always">Разрешить приложению открывать поддерживаемые ссылки</string>
     <string name="app_link_open_never">Запретить приложению открывать ссылки</string>
-    <string name="open_by_default">Открывать по умолчанию</string>
 </resources>

@@ -86,38 +86,84 @@ object AppDetails : Hook() {
             lateinit var bean: Bean
 
             override fun beforeHookedMethod(param: MethodHookParam) {
-                bean = if (!SecurityHost.isInternational) SecurityHost.version.let {
-                    when {
-                        // 7.1.1~7.1.7 Dev
-                        it >= 40000711 -> Bean(
-                            "o0", "L", "b0", "c0", "p", "a",
-                            listOf(
-                                "c.n.b.c",
-                                java.lang.Boolean::class.java,
-                            ),
-                        )
+                bean = if (!SecurityHost.isInternational) {
+                    if (SecurityHost.isDev) {
+                        SecurityHost.version.let {
+                            when {
+                                // 7.2.2 Dev
+                                it >= 40000722 -> Bean(
+                                    "t0", "N", "d0", "g0", "q", "a",
+                                    listOf(
+                                        "c.n.b.c",
+                                        java.lang.Boolean::class.java,
+                                    ),
+                                )
+                                // 7.1.8 Dev
+                                it >= 40000718 -> Bean(
+                                    "q0", "L", "b0", "d0", "q", "a",
+                                    listOf(
+                                        "c.n.b.c",
+                                        java.lang.Boolean::class.java,
+                                    ),
+                                )
 
-                        // 7.0.4 CN REL
-                        it >= 40000704 -> Bean(
-                            "o0", "J", "Z", "c0", "p", "a",
-                            listOf(
-                                "a.n.b.c",
-                                java.lang.Boolean::class.java,
-                            ),
-                        )
+                                // 7.1.1~7.1.7 Dev
+                                it >= 40000711 -> Bean(
+                                    "o0", "L", "b0", "c0", "p", "a",
+                                    listOf(
+                                        "c.n.b.c",
+                                        java.lang.Boolean::class.java,
+                                    ),
+                                )
+                                else -> throw Exception("Not supported Security App ${SecurityHost.versionName}")
+                            }
+                        }
 
-                        // 6.2.0, 6.0.5 CN
-                        it >= 40000605 -> Bean(
-                            "n0", "I", "Z", "b0", "p", "a",
-                            listOf(
-                                "a.j.b.c",
-                                java.lang.Boolean::class.java,
-                            ),
-                        )
-                        else -> throw Exception("Not supported Security App ${SecurityHost.versionName}")
+                    } else {
+                        SecurityHost.version.let {
+                            when {
+                                // 7.2.0 CN REL
+                                it >= 40000720 -> Bean(
+                                    "n0", "J", "Y", "b0", "p", "a",
+                                    listOf(
+                                        "c.n.b.c",
+                                        java.lang.Boolean::class.java,
+                                    ),
+                                )
+
+                                // 7.0.4 CN REL
+                                it >= 40000704 -> Bean(
+                                    "o0", "J", "Z", "c0", "p", "a",
+                                    listOf(
+                                        "a.n.b.c",
+                                        java.lang.Boolean::class.java,
+                                    ),
+                                )
+
+                                // 6.2.0, 6.0.5 CN
+                                it >= 40000605 -> Bean(
+                                    "n0", "I", "Z", "b0", "p", "a",
+                                    listOf(
+                                        "a.j.b.c",
+                                        java.lang.Boolean::class.java,
+                                    ),
+                                )
+                                else -> throw Exception("Not supported Security App ${SecurityHost.versionName}")
+                            }
+                        }
+
                     }
                 } else SecurityHost.version.let {
                     when {
+                        // 7.1.0 INTL REL
+                        it >= 40000710 -> Bean(
+                            "n0", "J", "Y", "b0", "p", "a",
+                            listOf(
+                                "a.o.b.c",
+                                java.lang.Boolean::class.java,
+                            ),
+                        )
+
                         // 7.0.4 INTL REL
                         it >= 40000704 -> Bean(
                             "n0", "J", "Z", "b0", "p", "a",

@@ -24,6 +24,10 @@ object SecurityHost : Hook() {
         versionName[versionName.length - 3] == '1'
     }
 
+    val isDev: Boolean by lazy {
+        versionName[versionName.length - 1] == '1'
+    }
+
     override fun init(classLoader: ClassLoader) {
         XposedHelpers.findAndHookMethod("com.miui.securitycenter.Application",
             classLoader,
