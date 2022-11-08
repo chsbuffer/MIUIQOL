@@ -90,6 +90,7 @@ object AppDetails : Hook() {
                     if (SecurityHost.isDev) {
                         SecurityHost.version.let {
                             when {
+                                // 7.2.3 Dev
                                 // 7.2.2 Dev
                                 it >= 40000722 -> Bean(
                                     "t0", "N", "d0", "g0", "q", "a",
@@ -98,6 +99,7 @@ object AppDetails : Hook() {
                                         java.lang.Boolean::class.java,
                                     ),
                                 )
+
                                 // 7.1.8 Dev
                                 it >= 40000718 -> Bean(
                                     "q0", "L", "b0", "d0", "q", "a",
@@ -122,7 +124,15 @@ object AppDetails : Hook() {
                     } else {
                         SecurityHost.version.let {
                             when {
-                                // 7.2.0 CN REL
+                                // 7.2.0-221028 CN REL
+                                it >= 40000720 && SecurityHost.buildDate >= 221028 -> Bean(
+                                    "o0", "I", "Y", "c0", "l0", "a", listOf(
+                                        "c.n.b.c",
+                                        java.lang.Boolean::class.java,
+                                    )
+                                )
+
+                                // 7.2.0-220928 CN REL
                                 it >= 40000720 -> Bean(
                                     "n0", "J", "Y", "b0", "p", "a",
                                     listOf(
@@ -131,7 +141,7 @@ object AppDetails : Hook() {
                                     ),
                                 )
 
-                                // 7.0.4 CN REL
+                                // 7.0.4-220901 CN REL
                                 it >= 40000704 -> Bean(
                                     "o0", "J", "Z", "c0", "p", "a",
                                     listOf(

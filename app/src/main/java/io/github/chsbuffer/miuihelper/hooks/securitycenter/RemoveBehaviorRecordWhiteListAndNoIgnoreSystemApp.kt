@@ -17,7 +17,7 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
                 when  {
                     SecurityHost.version >= 40000722 -> "f"
                     SecurityHost.version >= 40000714 -> "e"
-                    else->"e"
+                    else -> "d"
                 }
             }
             else -> "d"

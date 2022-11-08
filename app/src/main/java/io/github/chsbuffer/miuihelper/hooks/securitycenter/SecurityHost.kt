@@ -20,6 +20,11 @@ object SecurityHost : Hook() {
         app.packageManager.getPackageInfo(app.packageName, 0).versionName
     }
 
+    val buildDate: Int by lazy {
+        val start = versionName.indexOf('-') + 1
+        versionName.substring(start, start + 6).toInt()
+    }
+
     val isInternational: Boolean by lazy {
         versionName[versionName.length - 3] == '1'
     }
