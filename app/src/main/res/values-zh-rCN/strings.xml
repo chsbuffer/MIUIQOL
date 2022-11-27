@@ -39,4 +39,11 @@
     <string name="open_by_default">默认打开</string>
     <string name="app_link_open_always">允许应用打开支持的链接</string>
     <string name="app_link_open_never">不允许应用打开链接</string>
+    <string name="notification_settings_no_white_list_title">去除通知设置白名单</string>
+    <string name="notification_settings_no_white_list_summary">通知默认悬浮通知、震动、发出声音、在锁定屏幕上显示。</string>
+    <string name="kill_system_ui">强行停止系统界面</string>
+    <string name="kill_system_ui_confirm">确定强行停止系统界面？</string>
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="open_source_license">开放源代码许可</string>
 </resources>

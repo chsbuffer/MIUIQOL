@@ -25,7 +25,7 @@
     <string name="telegram_group_title">Telegram 群組</string>
     <string name="telegram_group_summary">點擊加入 MIUI QOL Telegram 群組</string>
     <string name="app_name_title">MIUI 生活品質提升</string>
-    <string name="app_name_summary">MIUI QOL\n由 ChsBuffer 製作\n繁體中文翻譯：聖小熊</string>
+    <string name="app_name_summary">MIUI QOL\n由 ChsBuffer 製作\n翻譯：聖小熊 (Github: @a406010503)</string>
     <string name="app_description">MIUI 生活品質提升</string>
     <string name="restore_google_icon_summary">國際版 MIUI 不需要。</string>
     <string name="module_not_enabled_summary">已經啟用？ 點此結束應用程式執行，然後再次打開模組設定</string>
@@ -39,4 +39,11 @@
     <string name="open_by_default">預設為開啟</string>
     <string name="app_link_open_always">允許應用程式開啟支援的連結</string>
     <string name="app_link_open_never">不允許應用程式開啟連結</string>
+    <string name="notification_settings_no_white_list_title">移除通知設定白名單</string>
+    <string name="notification_settings_no_white_list_summary">預設允許懸浮通知、通知鈴聲、通知震動、鎖定螢幕通知。</string>
+    <string name="kill_system_ui">強制停止 SystemUI</string>
+    <string name="kill_system_ui_confirm">您確定要強制停止 SystemUI 嗎？</string>
+    <string name="confirm">確認</string>
+    <string name="cancel">取消</string>
+    <string name="open_source_license">開放原始碼授權</string>
 </resources>

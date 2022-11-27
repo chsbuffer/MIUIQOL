@@ -4,24 +4,40 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
 class BooleanDuringMethod : XC_MethodHook {
+    enum class Type {
+        ThisObj, Obj, Class, Func
+    }
 
-    var clazz: Class<*>? = null
-    var obj: Any? = null
-    val fieldName: String
-    val value: Boolean
+    private var type: Type
+    private var clazz: Class<*>? = null
+    private var obj: Any? = null
+    private var func: ((MethodHookParam) -> Any)? = null
+
+    private val fieldName: String
+    private val value: Boolean
 
     constructor(fieldName: String, value: Boolean) : super() {
+        type = Type.ThisObj
+        this.fieldName = fieldName
+        this.value = value
+    }
+
+    constructor(func: (MethodHookParam) -> Any, fieldName: String, value: Boolean) : super() {
+        type = Type.Func
+        this.func = func
         this.fieldName = fieldName
         this.value = value
     }
 
     constructor(obj: Any, fieldName: String, value: Boolean) : super() {
+        type = Type.Obj
         this.obj = obj
         this.fieldName = fieldName
         this.value = value
     }
 
     constructor(clazz: Class<*>, fieldName: String, value: Boolean) : super() {
+        type = Type.Class
         this.clazz = clazz
         this.fieldName = fieldName
         this.value = value
@@ -30,22 +46,29 @@ class BooleanDuringMethod : XC_MethodHook {
     private var oldValue: Boolean = false
 
     override fun beforeHookedMethod(param: MethodHookParam) {
-        if (obj != null || (obj == null && clazz == null)) {
-            if (obj == null) obj = param.thisObject
-
-            oldValue = XposedHelpers.getBooleanField(obj, fieldName)
-            XposedHelpers.setBooleanField(obj, fieldName, value)
-        } else if (clazz != null) {
-            oldValue = XposedHelpers.getStaticBooleanField(clazz, fieldName)
-            XposedHelpers.setStaticBooleanField(clazz, fieldName, value)
+        when (type) {
+            Type.ThisObj -> obj = param.thisObject
+            Type.Func -> obj = func!!(param)
+            Type.Class -> {
+                oldValue = XposedHelpers.getStaticBooleanField(clazz, fieldName)
+                XposedHelpers.setStaticBooleanField(clazz, fieldName, value)
+                return
+            }
+            else -> {}
         }
+
+        oldValue = XposedHelpers.getBooleanField(obj, fieldName)
+        XposedHelpers.setBooleanField(obj, fieldName, value)
     }
 
     override fun afterHookedMethod(param: MethodHookParam?) {
-        if (obj != null) {
-            XposedHelpers.setBooleanField(obj, fieldName, oldValue)
-        } else {
-            XposedHelpers.setStaticBooleanField(clazz, fieldName, oldValue)
+        when (type) {
+            Type.ThisObj, Type.Obj, Type.Func -> XposedHelpers.setBooleanField(
+                obj,
+                fieldName,
+                oldValue
+            )
+            Type.Class -> XposedHelpers.setStaticBooleanField(clazz, fieldName, oldValue)
         }
     }
 }

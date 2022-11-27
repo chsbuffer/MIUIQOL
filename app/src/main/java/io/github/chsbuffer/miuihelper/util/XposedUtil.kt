@@ -11,11 +11,11 @@ object XposedUtil {
                 hook.init(classLoader)
             } catch (e: Exception) {
                 XposedBridge.log(
-                    "Failed to do ${hook::class.java.simpleName} hook\n${e.message}"
+                    "Failed to do ${hook::class.java.simpleName} hook\n${e}"
                 )
             } catch (e: Error) {
                 XposedBridge.log(
-                    "Failed to do ${hook::class.java.simpleName} hook\n${e.message}"
+                    "Failed to do ${hook::class.java.simpleName} hook\n${e}"
                 )
             }
         }

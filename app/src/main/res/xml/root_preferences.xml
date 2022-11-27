@@ -46,16 +46,24 @@
             android:defaultValue="true"
             android:key="restore_google_icon"
             android:singleLineTitle="false"
-            android:summary="@string/restore_google_icon_summary"
             android:title="@string/restore_google_icon_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/system_ui_app_name">
+        <Preference
+            android:key="kill_system_ui"
+            android:singleLineTitle="false"
+            android:title="@string/kill_system_ui" />
         <SwitchPreference
             android:defaultValue="true"
             android:key="restore_nearby_sharing_tile"
             android:singleLineTitle="false"
-            android:summary="@string/restore_nearby_sharing_tile_summary"
             android:title="@string/restore_nearby_sharing_tile_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="notification_settings_no_white_list"
+            android:singleLineTitle="false"
+            android:summary="@string/notification_settings_no_white_list_summary"
+            android:title="@string/notification_settings_no_white_list_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/screenshot_app_name">
         <SwitchPreference
@@ -81,9 +89,34 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/system_update_app_name">
         <SwitchPreference
+            android:defaultValue="false"
             android:key="remove_ota_validate"
             android:singleLineTitle="false"
             android:summary="@string/remove_ota_validate_summary"
             android:title="@string/remove_ota_validate_title" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/open_source_license">
+        <Preference
+            android:summary="Apache License 2.0, Copyright 2013 rovo89, Tungstwenty"
+            android:title="Xposed">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LuckyPray/DexKit" />
+        </Preference>
+        <Preference
+            android:summary="LGPL-3.0 license, LuckyPray"
+            android:title="DexKit">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://github.com/LuckyPray/DexKit" />
+        </Preference>
+        <Preference
+            android:layout_height="wrap_content"
+            android:summary="Apache License 2.0, Kotlin Team"
+            android:title="Kotlin">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="https://kotlinlang.org/" />
+        </Preference>
     </PreferenceCategory>
 </PreferenceScreen>

@@ -39,4 +39,11 @@
     <string name="open_by_default">Открывать по умолчанию</string>
     <string name="app_link_open_always">Разрешить приложению открывать поддерживаемые ссылки</string>
     <string name="app_link_open_never">Запретить приложению открывать ссылки</string>
+    <string name="notification_settings_no_white_list_title">Удалить белый список настроек уведомлений</string>
+    <string name="notification_settings_no_white_list_summary">Разрешить плавающие уведомления, звук уведомлений, вибрацию уведомлений, уведомления на экране блокировки по умолчанию.</string>
+    <string name="kill_system_ui">Перезапустить SystemUI</string>
+    <string name="kill_system_ui_confirm">Вы уверены, что хотите принудительно перезапустить SystemUI?</string>
+    <string name="confirm">Ок</string>
+    <string name="cancel">Отмена</string>
+    <string name="open_source_license">Лицензирование открытого исходного кода</string>
 </resources>

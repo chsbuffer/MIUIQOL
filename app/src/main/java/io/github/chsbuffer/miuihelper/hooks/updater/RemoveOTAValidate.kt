@@ -1,7 +1,8 @@
 package io.github.chsbuffer.miuihelper.hooks.updater
 
 import de.robv.android.xposed.XC_MethodReplacement
-import de.robv.android.xposed.XposedHelpers
+import de.robv.android.xposed.XposedBridge
+import io.github.chsbuffer.miuihelper.hooks.updater.UpdaterHost.dexKit
 import io.github.chsbuffer.miuihelper.model.Hook
 
 object RemoveOTAValidate : Hook() {
@@ -9,18 +10,11 @@ object RemoveOTAValidate : Hook() {
         if (!xPrefs.getBoolean("remove_ota_validate", false))
             return
 
-        val (clazzName, methodName) = UpdaterHost.version.let {
-            when {
-                else -> Pair("i", "T")
-            }
-        }
+        val m = dexKit.findMethodUsingString("support_ota_validate").single()
+            .getMethodInstance(classLoader)
 
-        XposedHelpers.findAndHookMethod(
-            "com.android.updater.common.utils.$clazzName",
-            classLoader,
-            methodName,
-            XC_MethodReplacement.returnConstant(false)
-        )
+        XposedBridge.hookMethod(m, XC_MethodReplacement.returnConstant(false))
+
         /*
         return FeatureParser.getBoolean("support_ota_validate", false);
         */

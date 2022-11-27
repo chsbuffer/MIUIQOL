@@ -7,12 +7,13 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
+import miui.os.Build
 
 object RestoreCnNearby : Hook() {
     var isHooked = false
 
     override fun init(classLoader: ClassLoader) {
-        if (!xPrefs.getBoolean("restore_nearby_sharing_tile", true))
+        if (!xPrefs.getBoolean("restore_nearby_sharing_tile", true) || Build.IS_INTERNATIONAL_BUILD)
             return
 
         val hook = BooleanDuringMethod(
@@ -66,7 +67,7 @@ object RestoreCnNearby : Hook() {
             "com.android.systemui.controlcenter.utils.ControlCenterUtils",
             classLoader
         )
-        val m1 = XposedHelpers.findMethodExact(
+        val m1 = XposedHelpers.findMethodExactIfExists(
             controlCenterUtilsClazz,
             "filterNearby",
             String::class.java

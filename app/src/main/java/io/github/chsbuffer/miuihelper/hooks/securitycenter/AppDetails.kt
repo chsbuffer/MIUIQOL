@@ -1,322 +1,213 @@
 package io.github.chsbuffer.miuihelper.hooks.securitycenter
 
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.verify.domain.DomainVerificationManager
 import android.os.Build
+import android.view.View
 import android.widget.TextView
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.BuildConfig
 import io.github.chsbuffer.miuihelper.R
+import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost.dexKit
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
+import io.luckypray.dexkit.DexKitBridge
 
 
 object AppDetails : Hook() {
-    data class Bean(
-        /** *是否是系统应用* 字段 */
-        val isSystemAppField: String,
+    val domainVerificationManager: DomainVerificationManager by lazy {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            SecurityHost.app.getSystemService(
+                DomainVerificationManager::class.java
+            )
+        } else {
+            null!!
+        }
+    }
+    val moduleContext: Context by lazy {
+        SecurityHost.app.createPackageContext(
+            BuildConfig.APPLICATION_ID, 0
+        )
+    }
+
+    @SuppressLint("DiscouragedApi")
+    override fun init(classLoader: ClassLoader) {
+
+        /** *是否是系统应用*字段 */
+        val isSystemAppField = dexKit.findMethodUsingField(
+            fieldDescriptor = "",
+            fieldDeclareClass = "",
+            fieldName = "",
+            fieldType = "Z",
+            usedFlags = DexKitBridge.FLAG_SETTING,
+            callerMethodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
+            callerMethodName = "initView",
+            callerMethodReturnType = "V"
+        ).values.single().single().name
 //  this.o0 = (applicationInfo.flags & 1) != 0
-        /** 获取 *联网控制* 按钮简介 方法 */
-        val getNetCtrlSummaryMethod: String,
-//  this.m.setSummary(L());               // L
+
+        /** *LiveData* 读取后 View更新 方法 */
+        val appDetailOnLoadDataFinishMethod = dexKit.findMethodUsingString(
+            usingString = "enter_way",
+            advancedMatch = false,
+            methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
+            methodName = "",
+            methodReturnType = "void",
+            methodParamTypes = arrayOf("", "Ljava/lang/Boolean;"),
+        ).single()
+//  public void a(a.j.b.c<Boolean> cVar, Boolean bool) {                      // <- a
+//      ……
+//      if (this.k0) {
+//          appDetailTextBannerView = this.p;
+//          i2 = R.string.app_manager_default_open_summary;
+//      } else {
+//          appDetailTextBannerView = this.p;
+//          i2 = R.string.app_manager_default_close_summary;
+//      }
+
+        /** *联网控制*按钮生成概括文本的方法 */
+        val getNetCtrlSummaryMethod = dexKit.findMethodInvoking(
+            methodDescriptor = appDetailOnLoadDataFinishMethod.descriptor,
+            beCalledMethodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
+            beCalledMethodReturnType = "Ljava/lang/String;",
+            beCalledMethodParamTypes = arrayOf()
+        )[appDetailOnLoadDataFinishMethod]!!.single().getMethodInstance(classLoader)
+//  this.m.setSummary(L());               // <- L
 //  ...
-//  L() {                                 // o0 isSystemApp
-//      if (this.o0) {
+//  L() {
+//      if (this.o0) {                    // o0 isSystemApp
 //          i2 = C0412R.string.app_manager_system_mobile_disable;
 //      } else if (!this.q0) {
 //          i2 = C0412R.string.app_manager_disable;
 //      }
 
         /** *联网控制* 复选按钮 *点击事件* 处理 方法 */
-        val NetCtrlDialogMethod: String,
-//  Z();                                      // Z
+        val netCtrlShowDialogMethod = dexKit.findMethodUsingOpCodeSeq(
+            opSeq = intArrayOf(0x55, 0x5c, 0x55, 0x5c, 0x55, 0x5c),
+            methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
+            methodReturnType = "V",
+            methodParamTypes = arrayOf()
+        ).single().getMethodInstance(classLoader)
+//  Z();                                      // <- Z
 //  str = "network_control";
 
-        /** *包名* 字段 */
-        val pkgNameField: String,
-//  intent.putExtra("am_app_pkgname", ApplicationsDetailsActivity.this.b0);           // b0
+        val net_id = SecurityHost.app.resources.getIdentifier(
+            "am_detail_net", "id", SecurityHost.app.packageName
+        )
 
-        /** *清除默认操作* 按钮 字段
-         *
-         * *AppDetailTextBannerView*
-         * */
-        val cleanDefaultViewField: String,
-        /** *LiveData* 读取后 View更新 方法 */
-        val appDetailOnLoadDataFinishMethod: String,
-        /** *LiveData* 读取后 View更新 方法参数 */
-        val appDetailOnLoadDataFinishParameter: List<Any>,
-
-//  public void a(a.j.b.c<Boolean> cVar, Boolean bool) {                      // a
-//      ……
-//      if (this.k0) {
-//          appDetailTextBannerView = this.p;                                 // p cleanDefaultView
-//          i2 = R.string.app_manager_default_open_summary;
-//      } else {
-//          appDetailTextBannerView = this.p;
-//          i2 = R.string.app_manager_default_close_summary;
-//      }
-    ) {
-
-        val domainVerificationManager: DomainVerificationManager by lazy {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                SecurityHost.app.getSystemService(
-                    DomainVerificationManager::class.java
-                )
-            } else {
-                null!!
-            }
-        }
-        val moduleContext: Context by lazy {
-            SecurityHost.app.createPackageContext(
-                BuildConfig.APPLICATION_ID, 0
-            )
-        }
-    }
-
-    override fun init(classLoader: ClassLoader) {
+        val default_id = SecurityHost.app.resources.getIdentifier(
+            "am_detail_default", "id", SecurityHost.app.packageName
+        )
 
         val appDetailClz =
             XposedHelpers.findClass("com.miui.appmanager.ApplicationsDetailsActivity", classLoader)
 
-        XposedHelpers.findAndHookMethod(appDetailClz, "initView", object : XC_MethodHook() {
-            lateinit var bean: Bean
-
-            override fun beforeHookedMethod(param: MethodHookParam) {
-                bean = if (!SecurityHost.isInternational) {
-                    if (SecurityHost.isDev) {
-                        SecurityHost.version.let {
-                            when {
-                                // 7.2.3 Dev
-                                // 7.2.2 Dev
-                                it >= 40000722 -> Bean(
-                                    "t0", "N", "d0", "g0", "q", "a",
-                                    listOf(
-                                        "c.n.b.c",
-                                        java.lang.Boolean::class.java,
-                                    ),
-                                )
-
-                                // 7.1.8 Dev
-                                it >= 40000718 -> Bean(
-                                    "q0", "L", "b0", "d0", "q", "a",
-                                    listOf(
-                                        "c.n.b.c",
-                                        java.lang.Boolean::class.java,
-                                    ),
-                                )
-
-                                // 7.1.1~7.1.7 Dev
-                                it >= 40000711 -> Bean(
-                                    "o0", "L", "b0", "c0", "p", "a",
-                                    listOf(
-                                        "c.n.b.c",
-                                        java.lang.Boolean::class.java,
-                                    ),
-                                )
-                                else -> throw Exception("Not supported Security App ${SecurityHost.versionName}")
-                            }
-                        }
-
-                    } else {
-                        SecurityHost.version.let {
-                            when {
-                                // 7.2.0-221028 CN REL
-                                it >= 40000720 && SecurityHost.buildDate >= 221028 -> Bean(
-                                    "o0", "I", "Y", "c0", "l0", "a", listOf(
-                                        "c.n.b.c",
-                                        java.lang.Boolean::class.java,
-                                    )
-                                )
-
-                                // 7.2.0-220928 CN REL
-                                it >= 40000720 -> Bean(
-                                    "n0", "J", "Y", "b0", "p", "a",
-                                    listOf(
-                                        "c.n.b.c",
-                                        java.lang.Boolean::class.java,
-                                    ),
-                                )
-
-                                // 7.0.4-220901 CN REL
-                                it >= 40000704 -> Bean(
-                                    "o0", "J", "Z", "c0", "p", "a",
-                                    listOf(
-                                        "a.n.b.c",
-                                        java.lang.Boolean::class.java,
-                                    ),
-                                )
-
-                                // 6.2.0, 6.0.5 CN
-                                it >= 40000605 -> Bean(
-                                    "n0", "I", "Z", "b0", "p", "a",
-                                    listOf(
-                                        "a.j.b.c",
-                                        java.lang.Boolean::class.java,
-                                    ),
-                                )
-                                else -> throw Exception("Not supported Security App ${SecurityHost.versionName}")
-                            }
-                        }
-
-                    }
-                } else SecurityHost.version.let {
-                    when {
-                        // 7.1.0 INTL REL
-                        it >= 40000710 -> Bean(
-                            "n0", "J", "Y", "b0", "p", "a",
-                            listOf(
-                                "a.o.b.c",
-                                java.lang.Boolean::class.java,
-                            ),
-                        )
-
-                        // 7.0.4 INTL REL
-                        it >= 40000704 -> Bean(
-                            "n0", "J", "Z", "b0", "p", "a",
-                            listOf(
-                                "c.o.b.c",
-                                java.lang.Boolean::class.java,
-                            ),
-                        )
-
-                        // 6.2.3, 6.3.0 INTL REL
-                        it >= 40000623 -> Bean(
-                            "n0", "I", "Z", "b0", "p", "a",
-                            listOf(
-                                "a.k.b.c",
-                                java.lang.Boolean::class.java,
-                            ),
-                        )
-                        else -> throw Exception("Not supported Security App ${SecurityHost.versionName}")
-                    }
-                }
-
-                if (xPrefs.getBoolean("system_app_wlan_control", true)) {
-                    // 和 联网控制 有关的方法调用期间，将 isSystemApp 设为 false
-                    val hook = BooleanDuringMethod(param.thisObject, bean.isSystemAppField, false)
-
-                    //region 联网控制多选对话框 onClick
-                    appDetailClz.declaredClasses.first {
-                        if (DialogInterface.OnMultiChoiceClickListener::class.java.isAssignableFrom(
-                                it
-                            )
-                        ) {
-                            val method = it.methods.firstOrNull { m -> m.name == "onClick" }
-
-                            if (method != null) {
-                                XposedBridge.hookMethod(method, hook)
-                                return@first true
-                            }
-                        }
-                        false
-                    }
-                        ?: throw Exception("OnMultiChoiceClickListener not found. wlan setting for System apps will not be available in app details")
-                    //endregion
-
-                    //region 联网控制获取概括文本方法
-                    XposedHelpers.findAndHookMethod(
-                        appDetailClz, bean.getNetCtrlSummaryMethod, hook
-                    )
-
-                    //endregion
-
-                    //region 打开联网控制多选对话框方法
-                    XposedHelpers.findAndHookMethod(appDetailClz, bean.NetCtrlDialogMethod, hook)
-
-                    //endregion
-                }
-
-                // 修改“清除默认操作”点击打开“默认打开”
-                if (xPrefs.getBoolean(
-                        "original_default_open_setting", true
-                    ) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-                ) {
-                    XposedHelpers.findAndHookMethod(appDetailClz,
-                        "onClick",
-                        android.view.View::class.java,
-                        object : XC_MethodHook() {
-                            override fun beforeHookedMethod(param: MethodHookParam) {
-                                val clickedView = param.args[0]
-                                val cleanDefaultView = XposedHelpers.getObjectField(
-                                    param.thisObject, bean.cleanDefaultViewField
-                                )
-                                val pkgName = XposedHelpers.getObjectField(
-                                    param.thisObject, bean.pkgNameField
-                                ) as String
-
-                                if (clickedView == cleanDefaultView) {
-                                    val intent = Intent().apply {
-                                        action =
-                                            android.provider.Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS
-                                        addCategory(Intent.CATEGORY_DEFAULT)
-                                        data = android.net.Uri.parse("package:${pkgName}")
-                                        addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-                                        addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-                                    }
-                                    XposedHelpers.callMethod(
-                                        param.thisObject, "startActivity", intent
-                                    )
-                                    param.result = null
-                                }
-                            }
-                        })
-                }
-
-                // 修改“清除默认操作”按钮标题和描述为“默认打开”
-                if (xPrefs.getBoolean(
-                        "original_default_open_setting", true
-                    ) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-                ) {
-                    XposedHelpers.findAndHookMethod(appDetailClz,
-                        bean.appDetailOnLoadDataFinishMethod,
-                        *bean.appDetailOnLoadDataFinishParameter.toTypedArray(),
-                        object : XC_MethodHook() {
-                            override fun afterHookedMethod(param: MethodHookParam) {
-                                val cleanDefaultView = XposedHelpers.getObjectField(
-                                    param.thisObject, bean.cleanDefaultViewField
-                                )
-                                val pkgName = XposedHelpers.getObjectField(
-                                    param.thisObject, bean.pkgNameField
-                                ) as String
-
-                                val isLinkHandlingAllowed =
-                                    bean.domainVerificationManager.getDomainVerificationUserState(
-                                        pkgName
-                                    )?.isLinkHandlingAllowed ?: false
-                                val subTextId =
-                                    if (isLinkHandlingAllowed) R.string.app_link_open_always else R.string.app_link_open_never
-
-                                // set title
-                                // 因为没有 setTitle(String)
-                                // 所以将 AppDetailTextBannerView 的 TextView 文本都设为 "Open by default"
-                                cleanDefaultView::class.java.declaredFields.forEach {
-                                    val textView =
-                                        XposedHelpers.getObjectField(cleanDefaultView, it.name)
-                                    if (textView !is TextView) return@forEach
-
-                                    XposedHelpers.callMethod(
-                                        textView,
-                                        "setText",
-                                        arrayOf(CharSequence::class.java),
-                                        bean.moduleContext.getString(R.string.open_by_default)
-                                    )
-                                }
-
-                                // set summary
-                                XposedHelpers.callMethod(
-                                    cleanDefaultView,
-                                    "setSummary",
-                                    bean.moduleContext.getString(subTextId)
-                                )
-                            }
-                        })
-                }
+        /* "联网控制"对话框确定 onClick */
+        val saveNetCtrlDialogOnClickMethod by lazy {
+            appDetailClz.declaredClasses.first {
+                DialogInterface.OnMultiChoiceClickListener::class.java.isAssignableFrom(it)
+            }.methods.first {
+                it.name == "onClick"
             }
+        }
 
-        })
+        if (xPrefs.getBoolean(
+                "original_default_open_setting", true
+            ) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+        ) {
+            // 修改“清除默认操作”点击打开“默认打开”
+            XposedHelpers.findAndHookMethod(appDetailClz,
+                "onClick",
+                android.view.View::class.java,
+                object : XC_MethodHook() {
+                    override fun beforeHookedMethod(param: MethodHookParam) {
+                        val clickedView = param.args[0]
+                        val cleanDefaultView =
+                            (param.thisObject as Activity).findViewById<View>(default_id)
+                        val pkgName =
+                            (param.thisObject as Activity).intent.getStringExtra("package_name")!!
+
+                        if (clickedView == cleanDefaultView) {
+                            val intent = Intent().apply {
+                                action =
+                                    android.provider.Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS
+                                addCategory(Intent.CATEGORY_DEFAULT)
+                                data = android.net.Uri.parse("package:${pkgName}")
+                                addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+                                addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+                            }
+                            XposedHelpers.callMethod(
+                                param.thisObject, "startActivity", intent
+                            )
+                            param.result = null
+                        }
+                    }
+                })
+
+            // 加载完毕数据后，修改“清除默认操作”按钮标题和描述为“默认打开”
+            XposedBridge.hookMethod(appDetailOnLoadDataFinishMethod.getMethodInstance(
+                classLoader
+            ), object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    val cleanDefaultView =
+                        (param.thisObject as Activity).findViewById<View>(default_id)
+                    val pkgName =
+                        (param.thisObject as Activity).intent.getStringExtra("package_name")!!
+
+                    val isLinkHandlingAllowed =
+                        domainVerificationManager.getDomainVerificationUserState(
+                            pkgName
+                        )?.isLinkHandlingAllowed ?: false
+                    val subTextId =
+                        if (isLinkHandlingAllowed) R.string.app_link_open_always else R.string.app_link_open_never
+
+                    // set title
+                    // 因为 AppDetailTextBannerView 没有 setTitle 方法，
+                    // 所以先将分别作为 Title 和 Summary 的两个 TextView 的文本都设为 "Open by default"
+                    // 之后再调用 setSummary 设置 Summary 的 TextView
+                    cleanDefaultView::class.java.declaredFields.forEach {
+                        val textView =
+                            XposedHelpers.getObjectField(cleanDefaultView, it.name)
+                        if (textView !is TextView) return@forEach
+
+                        XposedHelpers.callMethod(
+                            textView,
+                            "setText",
+                            arrayOf(CharSequence::class.java),
+                            moduleContext.getString(R.string.open_by_default)
+                        )
+                    }
+
+                    // set summary
+                    XposedHelpers.callMethod(
+                        cleanDefaultView,
+                        "setSummary",
+                        moduleContext.getString(subTextId)
+                    )
+                }
+            })
+        }
+
+        if (xPrefs.getBoolean("system_app_wlan_control", true)) {
+            XposedHelpers.findAndHookConstructor(appDetailClz, object : XC_MethodHook() {
+                override fun beforeHookedMethod(param: MethodHookParam) {
+                    // 和 联网控制 有关的方法调用期间，将 isSystemApp 设为 false
+                    val hook = BooleanDuringMethod(param.thisObject, isSystemAppField, false)
+
+                    XposedBridge.hookMethod(
+                        saveNetCtrlDialogOnClickMethod,
+                        hook
+                    )
+                    XposedBridge.hookMethod(getNetCtrlSummaryMethod, hook)
+                    XposedBridge.hookMethod(netCtrlShowDialogMethod, hook)
+                }
+            })
+        }
     }
 }

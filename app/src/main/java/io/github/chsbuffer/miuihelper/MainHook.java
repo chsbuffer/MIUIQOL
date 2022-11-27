@@ -9,6 +9,7 @@ import io.github.chsbuffer.miuihelper.hooks.home.RestoreCnBuildGoogleApp;
 import io.github.chsbuffer.miuihelper.hooks.screenrecorder.SaveToMovies;
 import io.github.chsbuffer.miuihelper.hooks.screenshot.SaveToPictures;
 import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost;
+import io.github.chsbuffer.miuihelper.hooks.systemui.NotificationSettingsNoWhiteList;
 import io.github.chsbuffer.miuihelper.hooks.systemui.RestoreCnNearby;
 import io.github.chsbuffer.miuihelper.hooks.updater.UpdaterHost;
 import io.github.chsbuffer.miuihelper.util.XposedUtil;
@@ -49,7 +50,8 @@ public class MainHook implements IXposedHookLoadPackage {
                 break;
             case "com.android.systemui":
                 XposedUtil.hooks(lpparam.classLoader,
-                        RestoreCnNearby.INSTANCE
+                        RestoreCnNearby.INSTANCE,
+                        NotificationSettingsNoWhiteList.INSTANCE
                 );
                 break;
         }

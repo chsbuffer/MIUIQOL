@@ -1,26 +1,29 @@
 plugins {
     id 'com.android.application'
+    id 'kotlin-android'
 }
-apply plugin: 'kotlin-android'
 
 android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "io.github.chsbuffer.miuihelper"
+        applicationId 'io.github.chsbuffer.miuihelper'
         minSdk 27
         targetSdk 33
-        versionCode 7
-        versionName "1.1.5"
+        versionCode 8
+        versionName '1.1.6'
+        ndk {
+            abiFilters 'arm64-v8a'
+        }
     }
-    packagingOptions.resources{
-        excludes += "META-INF/**"
-        excludes += "kotlin/**"
-        excludes += "**.bin"
+    packagingOptions.resources {
+        excludes += 'META-INF/**'
+        excludes += 'kotlin/**'
+        excludes += '**.bin'
     }
     buildTypes {
         debug {
-            applicationIdSuffix ".debug"
+            applicationIdSuffix '.debug'
             debuggable true
             minifyEnabled true
             shrinkResources true
@@ -33,7 +36,7 @@ android {
         }
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = '11'
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
@@ -47,5 +50,7 @@ android {
 
 dependencies {
     compileOnly 'de.robv.android.xposed:api:82'
+    compileOnly project(path: ':miuistub')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation 'com.github.LuckyPray:DexKit:1.0.2'
 }

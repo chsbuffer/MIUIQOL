@@ -4,10 +4,11 @@ import android.content.ComponentName
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.Hook
+import miui.os.Build
 
 object RestoreCnBuildGoogleApp : Hook() {
     override fun init(classLoader: ClassLoader) {
-        if (!xPrefs.getBoolean("restore_google_icon", true))
+        if (!xPrefs.getBoolean("restore_google_icon", true) || Build.IS_INTERNATIONAL_BUILD)
             return
 
         XposedHelpers.findAndHookConstructor(
