@@ -25,13 +25,28 @@ object RestoreCnNearby : Hook() {
             true
         )
 
-        // https://github.com/KieronQuinn/ClassicPowerMenu/blob/2e1648316b7bf1f5786e5d1132dc081436375c08/app/src/main/java/com/kieronquinn/app/classicpowermenu/components/xposed/Xposed.kt#L118
-        val pluginManagerImplClass = XposedHelpers.findClass(
-            "com.android.systemui.shared.plugins.PluginManagerImpl",
-            classLoader
-        )
-        val m =
-            pluginManagerImplClass.getDeclaredMethod("getClassLoader", ApplicationInfo::class.java)
+        val m = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            val pluginManagerImplClass = XposedHelpers.findClass(
+                "com.android.systemui.shared.plugins.PluginInstance\$Factory",
+                classLoader
+            )
+            pluginManagerImplClass.getDeclaredMethod(
+                "getClassLoader",
+                ApplicationInfo::class.java,
+                ClassLoader::class.java
+            )
+        } else {
+            // https://github.com/KieronQuinn/ClassicPowerMenu/blob/2e1648316b7bf1f5786e5d1132dc081436375c08/app/src/main/java/com/kieronquinn/app/classicpowermenu/components/xposed/Xposed.kt#L118
+            val pluginManagerImplClass = XposedHelpers.findClass(
+                "com.android.systemui.shared.plugins.PluginManagerImpl",
+                classLoader
+            )
+            pluginManagerImplClass.getDeclaredMethod(
+                "getClassLoader",
+                ApplicationInfo::class.java
+            )
+        }
+
         XposedBridge.hookMethod(m, object : XC_MethodHook() {
             override fun afterHookedMethod(param: MethodHookParam) {
                 val applicationInfo = param.args[0] as ApplicationInfo
@@ -54,9 +69,16 @@ object RestoreCnNearby : Hook() {
         })
 
         /**/
-        XposedHelpers.findAndHookMethod(
+        val injector = XposedHelpers.findClassIfExists(
             "com.android.systemui.controlcenter.qs.MiuiQSTileHostInjector",
-            classLoader,
+            classLoader
+        ) ?: XposedHelpers.findClass(
+            "com.android.systemui.qs.MiuiQSTileHostInjector",
+            classLoader
+        )
+
+        XposedHelpers.findAndHookMethod(
+            injector,
             "createMiuiTile",
             String::class.java,
             hook
