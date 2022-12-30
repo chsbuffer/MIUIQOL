@@ -56,7 +56,6 @@ class SettingsActivity : Activity() {
             if (miui.os.Build.IS_INTERNATIONAL_BUILD) {
                 removePreference("restore_google_icon")
 
-                removePreference("restore_nearby_sharing_tile")
                 removePreference("notification_settings_no_white_list")
             }
         }

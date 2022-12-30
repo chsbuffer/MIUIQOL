@@ -53,7 +53,7 @@ object AppDetails : Hook() {
 //  this.o0 = (applicationInfo.flags & 1) != 0
 
         /** *LiveData* 读取后 View更新 方法 */
-        val appDetailOnLoadDataFinishMethod = dexKit.findMethodUsingString(
+        val appDetailOnLoadDataFinishMethodDesc = dexKit.findMethodUsingString(
             usingString = "enter_way",
             advancedMatch = false,
             methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
@@ -61,6 +61,8 @@ object AppDetails : Hook() {
             methodReturnType = "void",
             methodParamTypes = arrayOf("", "Ljava/lang/Boolean;"),
         ).single()
+        val appDetailOnLoadDataFinishMethod =
+            appDetailOnLoadDataFinishMethodDesc.getMethodInstance(classLoader)
 //  public void a(a.j.b.c<Boolean> cVar, Boolean bool) {                      // <- a
 //      ……
 //      if (this.k0) {
@@ -73,11 +75,11 @@ object AppDetails : Hook() {
 
         /** *联网控制*按钮生成概括文本的方法 */
         val getNetCtrlSummaryMethod = dexKit.findMethodInvoking(
-            methodDescriptor = appDetailOnLoadDataFinishMethod.descriptor,
+            methodDescriptor = appDetailOnLoadDataFinishMethodDesc.descriptor,
             beCalledMethodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
             beCalledMethodReturnType = "Ljava/lang/String;",
             beCalledMethodParamTypes = arrayOf()
-        )[appDetailOnLoadDataFinishMethod]!!.single().getMethodInstance(classLoader)
+        )[appDetailOnLoadDataFinishMethodDesc]!!.single().getMethodInstance(classLoader)
 //  this.m.setSummary(L());               // <- L
 //  ...
 //  L() {
@@ -151,9 +153,7 @@ object AppDetails : Hook() {
                 })
 
             // 加载完毕数据后，修改“清除默认操作”按钮标题和描述为“默认打开”
-            XposedBridge.hookMethod(appDetailOnLoadDataFinishMethod.getMethodInstance(
-                classLoader
-            ), object : XC_MethodHook() {
+            XposedBridge.hookMethod(appDetailOnLoadDataFinishMethod, object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val cleanDefaultView =
                         (param.thisObject as Activity).findViewById<View>(default_id)
@@ -206,6 +206,15 @@ object AppDetails : Hook() {
                     )
                     XposedBridge.hookMethod(getNetCtrlSummaryMethod, hook)
                     XposedBridge.hookMethod(netCtrlShowDialogMethod, hook)
+                }
+            })
+
+            // 仅WIFi设备会直接隐藏联网控制
+            XposedBridge.hookMethod(appDetailOnLoadDataFinishMethod, object : XC_MethodHook() {
+                override fun afterHookedMethod(param: MethodHookParam) {
+                    val netCtrlView =
+                        (param.thisObject as Activity).findViewById<View>(net_id)
+                    netCtrlView.visibility = View.VISIBLE
                 }
             })
         }

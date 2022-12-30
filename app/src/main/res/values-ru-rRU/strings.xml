@@ -15,7 +15,7 @@
     <string name="screenshot_app_name">Скриншот</string>
     <string name="save_to_pictures_title">Сохранять скриншоты по пути Pictures/Screenshots</string>
     <string name="screen_recorder_app_name">Запись экрана</string>
-    <string name="save_to_movies_app_name">Сохранять видео по пути Movies/ScreenRecorder</string>
+    <string name="save_to_movies_title">Сохранять видео по пути Movies/ScreenRecorder</string>
     <string name="ai_translate_app_name">Mi AI Translator</string>
     <string name="support_ai_subtitles_title">Принудительная поддержка AI субтитров</string>
     <string name="support_ai_subtitles_summary">Можно перевести или переписать только китайский и английский языки.</string>

@@ -77,7 +77,13 @@
             android:defaultValue="true"
             android:key="save_to_movies"
             android:singleLineTitle="false"
-            android:title="@string/save_to_movies_app_name" />
+            android:title="@string/save_to_movies_title" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="force_support_playbackcapture"
+            android:singleLineTitle="false"
+            android:summary="@string/force_support_playbackcapture_summary"
+            android:title="@string/force_support_playbackcapture_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/ai_translate_app_name">
         <SwitchPreference

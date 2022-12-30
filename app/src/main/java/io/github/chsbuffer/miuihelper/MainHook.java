@@ -6,6 +6,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import io.github.chsbuffer.miuihelper.hooks.aiasst.SupportAiSubtitles;
 import io.github.chsbuffer.miuihelper.hooks.home.RestoreCnBuildGoogleApp;
+import io.github.chsbuffer.miuihelper.hooks.screenrecorder.ForceSupportPlaybackCapture;
 import io.github.chsbuffer.miuihelper.hooks.screenrecorder.SaveToMovies;
 import io.github.chsbuffer.miuihelper.hooks.screenshot.SaveToPictures;
 import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost;
@@ -32,7 +33,9 @@ public class MainHook implements IXposedHookLoadPackage {
                 break;
             case "com.miui.screenrecorder":
                 XposedUtil.hooks(lpparam.classLoader,
-                        SaveToMovies.INSTANCE);
+                        SaveToMovies.INSTANCE,
+                        ForceSupportPlaybackCapture.INSTANCE
+                );
                 break;
             case "com.miui.screenshot":
                 XposedUtil.hooks(lpparam.classLoader,

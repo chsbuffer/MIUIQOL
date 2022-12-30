@@ -15,7 +15,7 @@
     <string name="screenshot_app_name">螢幕截圖</string>
     <string name="save_to_pictures_title">截圖保存到 Pictures/Screenshots</string>
     <string name="screen_recorder_app_name">螢幕錄製</string>
-    <string name="save_to_movies_app_name">影片保存到 Movies/ScreenRecorder</string>
+    <string name="save_to_movies_title">影片保存到 Movies/ScreenRecorder</string>
     <string name="ai_translate_app_name">小愛翻譯</string>
     <string name="support_ai_subtitles_title">強制啟用 AI 字幕</string>
     <string name="support_ai_subtitles_summary">只能識別翻譯中文、英文。</string>

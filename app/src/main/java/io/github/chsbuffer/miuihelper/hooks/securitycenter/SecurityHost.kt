@@ -15,27 +15,6 @@ object SecurityHost : Hook() {
     lateinit var app: Application
         private set
 
-    val version: Int by lazy {
-        app.packageManager.getPackageInfo(app.packageName, 0).versionCode
-    }
-
-    val versionName: String by lazy {
-        app.packageManager.getPackageInfo(app.packageName, 0).versionName
-    }
-
-    val buildDate: Int by lazy {
-        val start = versionName.indexOf('-') + 1
-        versionName.substring(start, start + 6).toInt()
-    }
-
-    val isInternational: Boolean by lazy {
-        versionName[versionName.length - 3] == '1'
-    }
-
-    val isDev: Boolean by lazy {
-        versionName[versionName.length - 1] == '1'
-    }
-
     lateinit var dexKit: DexKitBridge
 
     override fun init(classLoader: ClassLoader) {

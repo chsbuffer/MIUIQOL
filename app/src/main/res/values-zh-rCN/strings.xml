@@ -15,7 +15,7 @@
     <string name="screenshot_app_name">截图</string>
     <string name="save_to_pictures_title">截图保存到 Pictures/Screenshots</string>
     <string name="screen_recorder_app_name">屏幕录制</string>
-    <string name="save_to_movies_app_name">视频保存到 Movies/ScreenRecorder</string>
+    <string name="save_to_movies_title">视频保存到 Movies/ScreenRecorder</string>
     <string name="ai_translate_app_name">小爱翻译</string>
     <string name="support_ai_subtitles_title">强制启用 AI字幕</string>
     <string name="support_ai_subtitles_summary">只能识别翻译中文、英文。</string>
@@ -46,4 +46,6 @@
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="open_source_license">开放源代码许可</string>
+    <string name="force_support_playbackcapture_summary" >需要 x.12.6.1.x 或更高版本。\n如果声音录制出现问题请关闭此功能。</string>
+    <string name="force_support_playbackcapture_title" >强制启用原生录音支持</string>
 </resources>
