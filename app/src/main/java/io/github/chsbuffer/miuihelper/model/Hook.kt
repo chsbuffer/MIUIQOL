@@ -1,6 +1,7 @@
 package io.github.chsbuffer.miuihelper.model
 
 import de.robv.android.xposed.XSharedPreferences
+import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import io.github.chsbuffer.miuihelper.BuildConfig
 
 abstract class Hook {
@@ -11,5 +12,11 @@ abstract class Hook {
         )
     }
 
-    abstract fun init(classLoader: ClassLoader)
+    open fun init(lpparam: LoadPackageParam) {
+        init(lpparam.classLoader)
+    }
+
+    open fun init(classLoader: ClassLoader) {
+
+    }
 }

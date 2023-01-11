@@ -3,25 +3,12 @@ package io.github.chsbuffer.miuihelper.hooks.securitycenter
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
+import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost.dexKit
 import io.github.chsbuffer.miuihelper.model.Hook
 
 
 object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
-    val banApp = hashSetOf(
-        "com.android.camera",
-        "com.miui.voiceassist",
-        "com.xiaomi.aiasst.vision",
-        "com.sohu.inputmethod.sogou.xiaomi",
-        "com.android.quicksearchbox",
-        "com.miui.personalassistant",
-        "com.xiaomi.gamecenter.sdk.service",
-        "com.miui.securityadd",
-        "com.xiaomi.mircs",
-        "com.google.android.gms",
-        "com.xiaomi.mibrain.speech",
-        "com.miui.yellowpage"
-    )
-    val whiteApp = hashSetOf(
+    val whiteApp = setOf(
         "com.miui.micloudsync",
         "com.mobiletools.systemhelper",
         "com.android.contacts",
@@ -48,30 +35,9 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
 
         // com.miui.permcenter.privacymanager.behaviorrecord
 
-        // 弃用：不读取内置白名单
-        //  XC_MethodReplacement.returnConstant(null)
-        /*
-        inputStreamReader = miui.os.Build.IS_INTERNATIONAL_BUILD ? new InputStreamReader(context.getResources().getAssets().open("global_behavior_record_white.csv")) : new InputStreamReader(context.getResources().getAssets().open("behavior_record_white.csv"));
-        */
-
-        // 不读取白名单（云端+内置）
-        /*
-        Bundle call = context.getContentResolver().call(Uri.parse("content://com.miui.sec.THIRD_DESKTOP"), "getListForBehaviorWhite", (String) null, (Bundle) null);
-        ...
-        Log.e("BehaviorRecord-Utils", "getCloudBehaviorWhite:", e2);
-        */
-
         val checkHook = object : XC_MethodHook() {
             override fun beforeHookedMethod(param: MethodHookParam) {
-                if (xPrefs.getBoolean("behavior_record_system_app_blacklist", false)) {
-//                  仅记录硬编码的系统应用，主要是膨胀软件
-                    val str = param.args[1] as? String ?: return
-                    val pkg = str.split('@')[0]
-
-                    if (banApp.contains(pkg)) {
-                        param.result = false
-                    }
-                } else if (xPrefs.getBoolean("behavior_record_system_app_whitelist", true)) {
+                if (xPrefs.getBoolean("behavior_record_system_app_whitelist", true)) {
 //                  不记录硬编码的系统应用，主要是系统组件
                     val str = param.args[1] as? String ?: return
                     val pkg = str.split('@')[0]
@@ -84,6 +50,24 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
             }
         }
 
+//  initTolerateApps, 初始化容忍应用
+/*
+    public static void a(Context context, boolean z) {
+        Set<String> set;
+        String str;
+        List<String> a2 = a(context);           // getCloudBehaviorWhite 云端白名单
+        if (a2 != null && a2.size() > 0) {
+        ...
+                }
+                Log.i("BehaviorRecord-Utils", "initTolerateApps by cloud success");
+            }
+        }
+        b(context);                             //  behavior_record_white.csv 本地白名单
+    }
+ */
+
+
+//      shouldIgnore, 判断行为是否应被忽略
         /*
         Log.d("Enterprise", "Package " + str + "is ignored");
         ...
@@ -91,18 +75,16 @@ object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
         */
 
         /* DexKit */
-        SecurityHost.dexKit.batchFindMethodsUsingStrings(
-            mapOf(
-                "getCloudBehaviorWhite" to setOf(
-                    "content://com.miui.sec.THIRD_DESKTOP", "getListForBehaviorWhite"
-                ),
-                "shouldIgnore" to setOf("Enterprise", "Package ", "is ignored")
-            )
-        ).forEach { (key, value) ->
+        dexKit.batchFindMethodsUsingStrings {
+            addQuery("initTolerateApps", setOf("initTolerateApps by cloud success"))
+            addQuery("shouldIgnore", setOf("Enterprise", "Package ", "is ignored"))
+        }.forEach { (key, value) ->
             if (value.size == 1) {
                 val m = value.first().getMethodInstance(classLoader)
                 when (key) {
-                    "getCloudBehaviorWhite" -> XposedBridge.hookMethod(m, XC_MethodReplacement.returnConstant(null))
+                    "initTolerateApps" -> XposedBridge.hookMethod(
+                        m, XC_MethodReplacement.returnConstant(null)
+                    )
                     "shouldIgnore" -> XposedBridge.hookMethod(m, checkHook)
                 }
             } else {

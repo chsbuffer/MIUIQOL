@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.pm.verify.domain.DomainVerificationManager
 import android.os.Build
 import android.view.View
@@ -14,16 +15,17 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.BuildConfig
 import io.github.chsbuffer.miuihelper.R
+import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost.app
 import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost.dexKit
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
-import io.luckypray.dexkit.DexKitBridge
+import io.luckypray.dexkit.enums.FieldUsingType
 
 
 object AppDetails : Hook() {
     val domainVerificationManager: DomainVerificationManager by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            SecurityHost.app.getSystemService(
+            app.getSystemService(
                 DomainVerificationManager::class.java
             )
         } else {
@@ -31,36 +33,32 @@ object AppDetails : Hook() {
         }
     }
     val moduleContext: Context by lazy {
-        SecurityHost.app.createPackageContext(
+        app.createPackageContext(
             BuildConfig.APPLICATION_ID, 0
         )
     }
 
-    @SuppressLint("DiscouragedApi")
+    @SuppressLint("DiscouragedApi", "PrivateApi")
     override fun init(classLoader: ClassLoader) {
 
         /** *是否是系统应用*字段 */
-        val isSystemAppField = dexKit.findMethodUsingField(
-            fieldDescriptor = "",
-            fieldDeclareClass = "",
-            fieldName = "",
-            fieldType = "Z",
-            usedFlags = DexKitBridge.FLAG_SETTING,
-            callerMethodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
-            callerMethodName = "initView",
+        val isSystemAppField = dexKit.findMethodUsingField {
+            fieldType = "Z"
+            usingType = FieldUsingType.PUT
+            callerMethodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;"
+            callerMethodName = "initView"
             callerMethodReturnType = "V"
-        ).values.single().single().name
+        }.values.single().single().name
 //  this.o0 = (applicationInfo.flags & 1) != 0
 
         /** *LiveData* 读取后 View更新 方法 */
-        val appDetailOnLoadDataFinishMethodDesc = dexKit.findMethodUsingString(
-            usingString = "enter_way",
-            advancedMatch = false,
-            methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
-            methodName = "",
-            methodReturnType = "void",
-            methodParamTypes = arrayOf("", "Ljava/lang/Boolean;"),
-        ).single()
+        val appDetailOnLoadDataFinishMethodDesc = dexKit.findMethodUsingString {
+            usingString = "enter_way"
+            advancedMatch = false
+            methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;"
+            methodReturnType = "void"
+            methodParamTypes = arrayOf("", "Ljava/lang/Boolean;")
+        }.single()
         val appDetailOnLoadDataFinishMethod =
             appDetailOnLoadDataFinishMethodDesc.getMethodInstance(classLoader)
 //  public void a(a.j.b.c<Boolean> cVar, Boolean bool) {                      // <- a
@@ -74,12 +72,12 @@ object AppDetails : Hook() {
 //      }
 
         /** *联网控制*按钮生成概括文本的方法 */
-        val getNetCtrlSummaryMethod = dexKit.findMethodInvoking(
-            methodDescriptor = appDetailOnLoadDataFinishMethodDesc.descriptor,
-            beCalledMethodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
-            beCalledMethodReturnType = "Ljava/lang/String;",
-            beCalledMethodParamTypes = arrayOf()
-        )[appDetailOnLoadDataFinishMethodDesc]!!.single().getMethodInstance(classLoader)
+        val getNetCtrlSummaryMethod = dexKit.findMethodInvoking {
+            methodDescriptor = appDetailOnLoadDataFinishMethodDesc.descriptor
+            beInvokedMethodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;"
+            beInvokedMethodReturnType = "Ljava/lang/String;"
+            beInvokedMethodParameterTypes = arrayOf()
+        }[appDetailOnLoadDataFinishMethodDesc]!!.single().getMethodInstance(classLoader)
 //  this.m.setSummary(L());               // <- L
 //  ...
 //  L() {
@@ -90,12 +88,12 @@ object AppDetails : Hook() {
 //      }
 
         /** *联网控制* 复选按钮 *点击事件* 处理 方法 */
-        val netCtrlShowDialogMethod = dexKit.findMethodUsingOpCodeSeq(
-            opSeq = intArrayOf(0x55, 0x5c, 0x55, 0x5c, 0x55, 0x5c),
-            methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;",
-            methodReturnType = "V",
+        val netCtrlShowDialogMethod = dexKit.findMethodUsingOpCodeSeq {
+            opSeq = intArrayOf(0x55, 0x5c, 0x55, 0x5c, 0x55, 0x5c)
+            methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;"
+            methodReturnType = "V"
             methodParamTypes = arrayOf()
-        ).single().getMethodInstance(classLoader)
+        }.single().getMethodInstance(classLoader)
 //  Z();                                      // <- Z
 //  str = "network_control";
 
@@ -124,7 +122,8 @@ object AppDetails : Hook() {
             ) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
         ) {
             // 修改“清除默认操作”点击打开“默认打开”
-            XposedHelpers.findAndHookMethod(appDetailClz,
+            XposedHelpers.findAndHookMethod(
+                appDetailClz,
                 "onClick",
                 android.view.View::class.java,
                 object : XC_MethodHook() {
@@ -172,8 +171,7 @@ object AppDetails : Hook() {
                     // 所以先将分别作为 Title 和 Summary 的两个 TextView 的文本都设为 "Open by default"
                     // 之后再调用 setSummary 设置 Summary 的 TextView
                     cleanDefaultView::class.java.declaredFields.forEach {
-                        val textView =
-                            XposedHelpers.getObjectField(cleanDefaultView, it.name)
+                        val textView = XposedHelpers.getObjectField(cleanDefaultView, it.name)
                         if (textView !is TextView) return@forEach
 
                         XposedHelpers.callMethod(
@@ -186,9 +184,7 @@ object AppDetails : Hook() {
 
                     // set summary
                     XposedHelpers.callMethod(
-                        cleanDefaultView,
-                        "setSummary",
-                        moduleContext.getString(subTextId)
+                        cleanDefaultView, "setSummary", moduleContext.getString(subTextId)
                     )
                 }
             })
@@ -201,8 +197,7 @@ object AppDetails : Hook() {
                     val hook = BooleanDuringMethod(param.thisObject, isSystemAppField, false)
 
                     XposedBridge.hookMethod(
-                        saveNetCtrlDialogOnClickMethod,
-                        hook
+                        saveNetCtrlDialogOnClickMethod, hook
                     )
                     XposedBridge.hookMethod(getNetCtrlSummaryMethod, hook)
                     XposedBridge.hookMethod(netCtrlShowDialogMethod, hook)
@@ -210,13 +205,47 @@ object AppDetails : Hook() {
             })
 
             // 仅WIFi设备会直接隐藏联网控制
-            XposedBridge.hookMethod(appDetailOnLoadDataFinishMethod, object : XC_MethodHook() {
-                override fun afterHookedMethod(param: MethodHookParam) {
-                    val netCtrlView =
-                        (param.thisObject as Activity).findViewById<View>(net_id)
-                    netCtrlView.visibility = View.VISIBLE
-                }
-            })
+            if (XposedHelpers.callStaticMethod(
+                    classLoader.loadClass("android.os.SystemProperties"),
+                    "getBoolean",
+                    "ro.radio.noril",
+                    false
+                ) as Boolean
+                || BuildConfig.DEBUG
+            ) {
+                val net_ctrl_title_id = app.resources.getIdentifier(
+                    "app_manager_net_control_title", "string", app.packageName
+                )
+                val app_manager_disable = app.getString(
+                    app.resources.getIdentifier(
+                        "app_manager_disable", "string", app.packageName
+                    )
+                )
+
+                XposedBridge.hookMethod(appDetailOnLoadDataFinishMethod, object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        val pkgName =
+                            (param.thisObject as Activity).intent.getStringExtra("package_name")!!
+                        val allowInternet = app.packageManager.checkPermission(
+                            "android.permission.INTERNET", pkgName
+                        ) == PackageManager.PERMISSION_GRANTED
+
+                        if (allowInternet && pkgName != "com.xiaomi.finddevice" && pkgName != "com.miui.mishare.connectivity") {
+                            val netCtrlView =
+                                (param.thisObject as Activity).findViewById<View>(net_id)
+                            netCtrlView.visibility = View.VISIBLE
+                            XposedHelpers.callMethod(netCtrlView, "setTitle", net_ctrl_title_id)
+                        }
+                    }
+                })
+
+                XposedBridge.hookMethod(getNetCtrlSummaryMethod, object : XC_MethodHook() {
+                    override fun afterHookedMethod(param: MethodHookParam) {
+                        if ((param.result as String).isBlank())
+                            param.result = app_manager_disable
+                    }
+                })
+            }
         }
     }
 }

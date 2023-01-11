@@ -10,8 +10,8 @@ android {
         applicationId 'io.github.chsbuffer.miuihelper'
         minSdk 27
         targetSdk 33
-        versionCode 10
-        versionName '1.1.8'
+        versionCode 11
+        versionName '1.1.9'
         ndk {
             abiFilters 'arm64-v8a'
         }
@@ -52,5 +52,5 @@ dependencies {
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly project(path: ':miuistub')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'com.github.LuckyPray:DexKit:ae32231574'
+    implementation 'org.luckypray:DexKit:1.1.0-beta6'
 }

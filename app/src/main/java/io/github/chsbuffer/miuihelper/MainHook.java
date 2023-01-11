@@ -22,37 +22,37 @@ public class MainHook implements IXposedHookLoadPackage {
     public void handleLoadPackage(XC_LoadPackage.LoadPackageParam lpparam) {
         switch (lpparam.packageName) {
             case "com.android.updater":
-                XposedUtil.hooks(lpparam.classLoader,
+                XposedUtil.hooks(lpparam,
                         UpdaterHost.INSTANCE
                 );
                 break;
             case "com.miui.securitycenter":
-                XposedUtil.hooks(lpparam.classLoader,
+                XposedUtil.hooks(lpparam,
                         SecurityHost.INSTANCE
                 );
                 break;
             case "com.miui.screenrecorder":
-                XposedUtil.hooks(lpparam.classLoader,
+                XposedUtil.hooks(lpparam,
                         SaveToMovies.INSTANCE,
                         ForceSupportPlaybackCapture.INSTANCE
                 );
                 break;
             case "com.miui.screenshot":
-                XposedUtil.hooks(lpparam.classLoader,
+                XposedUtil.hooks(lpparam,
                         SaveToPictures.INSTANCE);
                 break;
             case "com.miui.home":
-                XposedUtil.hooks(lpparam.classLoader,
+                XposedUtil.hooks(lpparam,
                         RestoreCnBuildGoogleApp.INSTANCE
                 );
                 break;
             case "com.xiaomi.aiasst.vision":
-                XposedUtil.hooks(lpparam.classLoader,
+                XposedUtil.hooks(lpparam,
                         SupportAiSubtitles.INSTANCE
                 );
                 break;
             case "com.android.systemui":
-                XposedUtil.hooks(lpparam.classLoader,
+                XposedUtil.hooks(lpparam,
                         RestoreCnNearby.INSTANCE,
                         NotificationSettingsNoWhiteList.INSTANCE
                 );
