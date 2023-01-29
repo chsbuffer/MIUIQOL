@@ -1,16 +1,26 @@
 package io.github.chsbuffer.miuihelper.hooks.securitycenter
 
+import de.robv.android.xposed.callbacks.XC_LoadPackage
 import io.github.chsbuffer.miuihelper.model.Hook
-import io.github.chsbuffer.miuihelper.model.Host
+import io.github.chsbuffer.miuihelper.util.hooks
+import io.github.chsbuffer.miuihelper.util.inContext
+import io.github.chsbuffer.miuihelper.util.useDexKit
 
 
-object SecurityHost : Host() {
-    override var hooks: Array<Hook> = arrayOf(
-        RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp,
-        RemoveSetSystemAppWifiRuleAllow,
-        EnabledAllTextView,
-        LockOneHundred,
-        AppDetails,
-        IntlEnableBehaviorRecord
-    )
+object SecurityHost : Hook() {
+    override fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
+        inContext(lpparam) { app ->
+            useDexKit(lpparam) { dexKit ->
+                hooks(
+                    lpparam,
+                    RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp(dexKit),
+                    RemoveSetSystemAppWifiRuleAllow,
+                    EnabledAllTextView,
+                    LockOneHundred,
+                    AppDetails(dexKit, app),
+                    IntlEnableBehaviorRecord(dexKit)
+                )
+            }
+        }
+    }
 }

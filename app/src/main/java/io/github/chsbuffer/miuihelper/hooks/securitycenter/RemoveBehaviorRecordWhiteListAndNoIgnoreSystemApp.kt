@@ -3,11 +3,13 @@ package io.github.chsbuffer.miuihelper.hooks.securitycenter
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
-import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost.dexKit
 import io.github.chsbuffer.miuihelper.model.Hook
+import io.luckypray.dexkit.DexKitBridge
 
 
-object RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp : Hook() {
+class RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp(
+    val dexKit: DexKitBridge
+) : Hook() {
     val whiteApp = setOf(
         "com.miui.micloudsync",
         "com.mobiletools.systemhelper",

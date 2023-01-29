@@ -1,10 +1,18 @@
 package io.github.chsbuffer.miuihelper.hooks.updater
 
+import de.robv.android.xposed.callbacks.XC_LoadPackage
 import io.github.chsbuffer.miuihelper.model.Hook
-import io.github.chsbuffer.miuihelper.model.Host
+import io.github.chsbuffer.miuihelper.util.hooks
+import io.github.chsbuffer.miuihelper.util.useDexKit
 
-object UpdaterHost : Host() {
+object UpdaterHost : Hook() {
 
-    override var hooks: Array<Hook> = arrayOf(RemoveOTAValidate)
-
+    override fun init(lpparam: XC_LoadPackage.LoadPackageParam) {
+        useDexKit(lpparam) { dexKit ->
+            hooks(
+                lpparam,
+                RemoveOTAValidate(dexKit)
+            )
+        }
+    }
 }

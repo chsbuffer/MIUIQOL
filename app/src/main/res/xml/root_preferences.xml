@@ -64,6 +64,11 @@
             android:singleLineTitle="false"
             android:summary="@string/notification_settings_no_white_list_summary"
             android:title="@string/notification_settings_no_white_list_title" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="notification_channel_setting"
+            android:singleLineTitle="false"
+            android:title="@string/notification_channel_setting_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/screenshot_app_name">
         <SwitchPreference

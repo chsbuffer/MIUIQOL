@@ -2,15 +2,20 @@ package io.github.chsbuffer.miuihelper.hooks.updater
 
 import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
-import io.github.chsbuffer.miuihelper.hooks.updater.UpdaterHost.dexKit
 import io.github.chsbuffer.miuihelper.model.Hook
+import io.luckypray.dexkit.DexKitBridge
+import io.luckypray.dexkit.enums.MatchType
 
-object RemoveOTAValidate : Hook() {
+class RemoveOTAValidate(val dexKit: DexKitBridge) : Hook() {
+
     override fun init(classLoader: ClassLoader) {
         if (!xPrefs.getBoolean("remove_ota_validate", false))
             return
 
-        val m = dexKit.findMethodUsingString("support_ota_validate").single()
+        val m = dexKit.findMethodUsingString {
+            usingString = "support_ota_validate"
+            matchType = MatchType.FULL
+        }.single()
             .getMethodInstance(classLoader)
 
         XposedBridge.hookMethod(m, XC_MethodReplacement.returnConstant(false))

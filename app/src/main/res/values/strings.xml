@@ -48,4 +48,5 @@
     <string name="open_source_license">Open-source licenses</string>
     <string name="force_support_playbackcapture_summary">Requires ScreenRecorder app version x.12.6.1.x or later.\nTurn off if you experience problems with audio recording.</string>
     <string name="force_support_playbackcapture_title">Force enable Native Audio Recorder</string>
+    <string name="notification_channel_setting_title" >Notification more info redirect to notification channel settings</string>
 </resources>

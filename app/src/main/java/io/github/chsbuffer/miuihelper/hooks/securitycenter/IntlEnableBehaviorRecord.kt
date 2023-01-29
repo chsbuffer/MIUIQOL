@@ -3,13 +3,13 @@ package io.github.chsbuffer.miuihelper.hooks.securitycenter
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.BuildConfig
-import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost.dexKit
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
+import io.luckypray.dexkit.DexKitBridge
 import io.luckypray.dexkit.enums.FieldUsingType
 import miui.os.Build
 
-object IntlEnableBehaviorRecord : Hook() {
+class IntlEnableBehaviorRecord(val dexKit: DexKitBridge) : Hook() {
     override fun init(classLoader: ClassLoader) {
         if ((!xPrefs.getBoolean("behavior_record_enhance", true)
                     || !Build.IS_INTERNATIONAL_BUILD)

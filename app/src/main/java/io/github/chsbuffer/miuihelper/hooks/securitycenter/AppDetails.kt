@@ -2,6 +2,7 @@ package io.github.chsbuffer.miuihelper.hooks.securitycenter
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.Application
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -15,14 +16,14 @@ import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.BuildConfig
 import io.github.chsbuffer.miuihelper.R
-import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost.app
-import io.github.chsbuffer.miuihelper.hooks.securitycenter.SecurityHost.dexKit
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
+import io.luckypray.dexkit.DexKitBridge
 import io.luckypray.dexkit.enums.FieldUsingType
+import io.luckypray.dexkit.enums.MatchType
 
 
-object AppDetails : Hook() {
+class AppDetails(val dexKit: DexKitBridge, val app: Application) : Hook() {
     val domainVerificationManager: DomainVerificationManager by lazy {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             app.getSystemService(
@@ -54,7 +55,7 @@ object AppDetails : Hook() {
         /** *LiveData* 读取后 View更新 方法 */
         val appDetailOnLoadDataFinishMethodDesc = dexKit.findMethodUsingString {
             usingString = "enter_way"
-            advancedMatch = false
+            matchType = MatchType.CONTAINS
             methodDeclareClass = "Lcom/miui/appmanager/ApplicationsDetailsActivity;"
             methodReturnType = "void"
             methodParamTypes = arrayOf("", "Ljava/lang/Boolean;")
@@ -97,12 +98,12 @@ object AppDetails : Hook() {
 //  Z();                                      // <- Z
 //  str = "network_control";
 
-        val net_id = SecurityHost.app.resources.getIdentifier(
-            "am_detail_net", "id", SecurityHost.app.packageName
+        val net_id = app.resources.getIdentifier(
+            "am_detail_net", "id", app.packageName
         )
 
-        val default_id = SecurityHost.app.resources.getIdentifier(
-            "am_detail_default", "id", SecurityHost.app.packageName
+        val default_id = app.resources.getIdentifier(
+            "am_detail_default", "id", app.packageName
         )
 
         val appDetailClz =

@@ -48,4 +48,5 @@
     <string name="open_source_license">开放源代码许可</string>
     <string name="force_support_playbackcapture_summary" >需要 x.12.6.1.x 或更高版本。\n如果声音录制出现问题请关闭此功能。</string>
     <string name="force_support_playbackcapture_title" >强制启用原生录音支持</string>
+    <string name="notification_channel_setting_title" >通知更多设置重定向至通知渠道设置</string>
 </resources>
