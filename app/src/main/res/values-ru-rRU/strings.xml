@@ -46,4 +46,8 @@
     <string name="confirm">Ок</string>
     <string name="cancel">Отмена</string>
     <string name="open_source_license">Лицензирование открытого исходного кода</string>
+    <string name="force_support_playbackcapture_summary">Требует ScreenRecorder приложение версии x.12.6.1.x или более поздней версии.\nОтключите, если у вас возникли проблемы с записью.</string>
+    <string name="force_support_playbackcapture_title">Принудительное включение нативной записи аудио</string>
+    <string name="notification_channel_setting_title">Открывать настройки канала</string>
+    <string name="notification_channel_setting_summary">Открытие настроек из меню уведомления ведёт к настройкам канала, а не к общим настройкам уведомлений приложения</string>
 </resources>

@@ -68,6 +68,7 @@
             android:defaultValue="false"
             android:key="notification_channel_setting"
             android:singleLineTitle="false"
+            android:summary="@string/notification_channel_setting_summary"
             android:title="@string/notification_channel_setting_title" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/screenshot_app_name">

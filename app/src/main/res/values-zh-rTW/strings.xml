@@ -46,4 +46,8 @@
     <string name="confirm">確認</string>
     <string name="cancel">取消</string>
     <string name="open_source_license">開放原始碼授權</string>
+    <string name="force_support_playbackcapture_summary">需要 x.12.6.1.x 或更高版本。 \n如果聲音錄製出現問題請關閉此功能。</string>
+    <string name="force_support_playbackcapture_title">強制啟用原生錄音支援</string>
+    <string name="notification_channel_setting_title">開啟頻道設置</string>
+    <string name="notification_channel_setting_summary">開啟通知功能表的設置會導航至頻道設置而不是應用通用通知設置</string>
 </resources>
