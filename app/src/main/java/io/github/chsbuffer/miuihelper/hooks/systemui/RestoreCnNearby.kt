@@ -18,7 +18,7 @@ object RestoreCnNearby : Hook() {
         /* hook miui.systemui.plugin */
 
         // MIUI 14
-        XposedHelpers.findClassIfExists(
+        (XposedHelpers.findClassIfExists(
             "com.android.systemui.shared.plugins.PluginInstance\$Factory", classLoader
         )?.getDeclaredMethod(
             "getClassLoader", ApplicationInfo::class.java, ClassLoader::class.java
@@ -29,7 +29,7 @@ object RestoreCnNearby : Hook() {
             "com.android.systemui.shared.plugins.PluginManagerImpl", classLoader
         ).getDeclaredMethod(
             "getClassLoader", ApplicationInfo::class.java
-        ).let {
+        )).let {
             XposedBridge.hookMethod(it, object : XC_MethodHook() {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val applicationInfo = param.args[0] as ApplicationInfo

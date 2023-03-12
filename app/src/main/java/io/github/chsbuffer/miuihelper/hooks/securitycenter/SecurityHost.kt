@@ -16,7 +16,7 @@ object SecurityHost : Hook() {
                     RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp(dexKit),
                     RemoveSetSystemAppWifiRuleAllow,
                     EnabledAllTextView,
-                    LockOneHundred,
+                    LockOneHundred(dexKit),
                     AppDetails(dexKit, app),
                     IntlEnableBehaviorRecord(dexKit)
                 )
