@@ -3,7 +3,7 @@ package io.github.chsbuffer.miuihelper.model
 import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedHelpers
 
-class BooleanDuringMethod : XC_MethodHook {
+open class BooleanDuringMethod : XC_MethodHook {
     enum class Type {
         ThisObj, Obj, Class, Func
     }
@@ -14,7 +14,7 @@ class BooleanDuringMethod : XC_MethodHook {
     private var func: ((MethodHookParam) -> Any)? = null
 
     private val fieldName: String
-    private val value: Boolean
+    protected var value: Boolean
 
     constructor(fieldName: String, value: Boolean) : super() {
         type = Type.ThisObj

@@ -50,4 +50,7 @@
     <string name="force_support_playbackcapture_title">强制启用原生录音支持</string>
     <string name="notification_channel_setting_title">打开通知频道设置</string>
     <string name="notification_channel_setting_summary">打开通知菜单的设置会导航至频道设置而不是应用通用通知设置</string>
+    <string name="restore_google_feed_title">替换负一屏为 Google Feed</string>
+    <string name="restore_google_search_title">替换搜索为 Google 搜索</string>
+    <string name="restore_google_feed_summary">如果无法滑动到负一屏，请强行停止 Google</string>
 </resources>

@@ -5,6 +5,8 @@ import de.robv.android.xposed.IXposedHookLoadPackage
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import io.github.chsbuffer.miuihelper.hooks.aiasst.SupportAiSubtitles
 import io.github.chsbuffer.miuihelper.hooks.home.RestoreCnBuildGoogleApp
+import io.github.chsbuffer.miuihelper.hooks.home.RestoreGoogleFeed
+import io.github.chsbuffer.miuihelper.hooks.home.RestoreGoogleSearch
 import io.github.chsbuffer.miuihelper.hooks.screenrecorder.ForceSupportPlaybackCapture
 import io.github.chsbuffer.miuihelper.hooks.screenrecorder.SaveToMovies
 import io.github.chsbuffer.miuihelper.hooks.screenshot.SaveToPictures
@@ -38,7 +40,9 @@ class MainHook : IXposedHookLoadPackage {
             )
             "com.miui.home" -> hooks(
                 lpparam,
-                RestoreCnBuildGoogleApp
+                RestoreCnBuildGoogleApp,
+                RestoreGoogleFeed,
+                RestoreGoogleSearch
             )
             "com.xiaomi.aiasst.vision" -> hooks(
                 lpparam,

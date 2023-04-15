@@ -50,4 +50,7 @@
     <string name="force_support_playbackcapture_title">Force enable Native Audio Recorder</string>
     <string name="notification_channel_setting_title" >Open channel settings</string>
     <string name="notification_channel_setting_summary">Opening settings from notification menu leads to channel settings instead of app\'s common notification settings</string>
+    <string name="restore_google_search_title">Search bar opens Google Search</string>
+    <string name="restore_google_feed_title">Replace App Vault into Google Feed</string>
+    <string name="restore_google_feed_summary">Force stop Google App if you can\'t swipe to -1 screen</string>
 </resources>
