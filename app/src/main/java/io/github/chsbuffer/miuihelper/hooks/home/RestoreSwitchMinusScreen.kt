@@ -8,9 +8,9 @@ import io.github.chsbuffer.miuihelper.model.Hook
 import miui.os.Build
 
 
-object RestoreGoogleFeed : Hook() {
+object RestoreSwitchMinusScreen : Hook() {
     override fun init(classLoader: ClassLoader) {
-        if (!xPrefs.getBoolean("restore_google_feed", true) || Build.IS_INTERNATIONAL_BUILD) return
+        if (!xPrefs.getBoolean("restore_switch_minus_screen", false) || Build.IS_INTERNATIONAL_BUILD) return
 
         // 启用可以切换负一屏（即“智能助理”或“Google”）
         val LauncherAssistantCompatClass =

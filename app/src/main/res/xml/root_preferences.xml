@@ -48,11 +48,11 @@
             android:singleLineTitle="false"
             android:title="@string/restore_google_icon_title" />
         <SwitchPreference
-            android:defaultValue="true"
-            android:key="restore_google_feed"
+            android:defaultValue="false"
+            android:key="restore_switch_minus_screen"
             android:singleLineTitle="false"
-            android:title="@string/restore_google_feed_title"
-            android:summary="@string/restore_google_feed_summary" />
+            android:title="@string/restore_switch_minus_screen_title"
+            android:summary="@string/restore_switch_minus_screen_summary" />
         <SwitchPreference
             android:defaultValue="false"
             android:key="restore_google_search"

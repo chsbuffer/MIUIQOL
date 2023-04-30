@@ -5,13 +5,13 @@
     <string name="behavior_record_enhance_title">Улучшение поведения записи приложений</string>
     <string name="behavior_record_enhance_summary">Просмотр всех действий приложений. Не фильтрует приложения и системные приложения из белого списка.</string>
     <string name="system_app_wlan_control_title">Настройка WLAN системных приложений</string>
-    <string name="system_app_wlan_control_summary">- Запретить приложению \"Безопасность MIUI\" восстанавливать настройки WLAN-подключения системных приложений\n- Отображение настроек WLAN в системных приложениях\n\nЧтобы проверить сетевые настройки системных приложений, перейдите в Инструменты приложения Безопасность - Сетевые настройки приложений - (Мобильные данные) - Системные приложения и нажмите на приложение в списке.</string>
+    <string name="system_app_wlan_control_summary">- Запретить приложению MIUI Безопасность восстанавливать настройки WLAN для системных приложений\n- Отображать настройки WLAN системных приложений</string>
     <string name="enable_all_text_view_title">Включить все текстовые представления (TextView)</string>
     <string name="enable_all_text_view_summary">- Включение настройки WLAN для системных приложений\n- Пропускать время предупреждения (самостоятельно игнорировать цифры обратного отсчета)\n- ……\n\n*Приготовьтесь к непредвиденным последствиям.</string>
     <string name="lock_one_hundred_title">Установить 100 баллов в приложении Безопасность MIUI</string>
     <string name="lock_one_hundred_summary">Так же, как и WooBox для MIUI, установка 100 баллов для приложения Безопасность MIUI</string>
     <string name="system_launcher_app_name">Рабочий стол MIUI</string>
-    <string name="restore_google_icon_title">Предотвращение скрытия ярлыка Google в System Launcher</string>
+    <string name="restore_google_icon_title">Восстановление ярлыка Google</string>
     <string name="screenshot_app_name">Скриншот</string>
     <string name="save_to_pictures_title">Сохранять скриншоты по пути Pictures/Screenshots</string>
     <string name="screen_recorder_app_name">Запись экрана</string>
@@ -27,12 +27,10 @@
     <string name="app_name_title">Улучшение качества жизни MIUI</string>
     <string name="app_name_summary">MIUI QOL\nАвтор: ChsBuffer\nПеревел @majestics_translation</string>
     <string name="app_description">Улучшение качества жизни MIUI</string>
-    <string name="restore_google_icon_summary">Только китайская версия MIUI.</string>
     <string name="module_not_enabled_summary">Уже включен? Нажмите здесь, чтобы остановить модуль, затем снова откройте настройки модуля.</string>
     <string name="module_not_enabled_title">Модуль не включен!</string>
     <string name="system_ui_app_name">SystemUI</string>
-    <string name="restore_nearby_sharing_tile_title">Запрет на скрытие в SystemUI плитки быстрых настроек Nearby Sharing</string>
-    <string name="restore_nearby_sharing_tile_summary">Только китайская версия MIUI.</string>
+    <string name="restore_nearby_sharing_tile_title">Восстановление плитки Nearby Sharing в центре управления</string>
     <string name="behavior_record_system_app_whitelist_title">Белый список параметров записи системных приложений</string>
     <string name="behavior_record_system_app_whitelist_summary">Внести в белый список некоторые системные приложения, чтобы уведомления о защите конфиденциальности не пугали пользователей, которые не знают, как их отключить.</string>
     <string name="original_default_open_setting_title">Изменить информацию о приложении «Очистить по умолчанию» на «Открыть по умолчанию»</string>
@@ -50,4 +48,7 @@
     <string name="force_support_playbackcapture_title">Принудительное включение нативной записи аудио</string>
     <string name="notification_channel_setting_title">Открывать настройки канала</string>
     <string name="notification_channel_setting_summary">Открытие настроек из меню уведомления ведёт к настройкам канала, а не к общим настройкам уведомлений приложения</string>
+    <string name="restore_google_search_title">Строка поиска открывает поиск Google</string>
+    <string name="restore_switch_minus_screen_title">Восстановление переключения -1 экрана</string>
+    <string name="restore_switch_minus_screen_summary">Если Вы не можете перейти на -1 экран при использовании Google Discover, принудительно остановите приложение Google</string>
 </resources>

@@ -11,7 +11,7 @@
     <string name="lock_one_hundred_title">体检分数锁定 100 分</string>
     <string name="lock_one_hundred_summary">同 WooBox for MIUI 锁定100分</string>
     <string name="system_launcher_app_name">系统桌面</string>
-    <string name="restore_google_icon_title">阻止系统桌面隐藏 Google 桌面图标</string>
+    <string name="restore_google_icon_title">恢复 Google 桌面图标</string>
     <string name="screenshot_app_name">截图</string>
     <string name="save_to_pictures_title">截图保存到 Pictures/Screenshots</string>
     <string name="screen_recorder_app_name">屏幕录制</string>
@@ -27,12 +27,10 @@
     <string name="app_name_title">MIUI 生活质量提升</string>
     <string name="app_name_summary">MIUI QOL\n由 ChsBuffer 随便做做</string>
     <string name="app_description">MIUI 生活质量提升</string>
-    <string name="restore_google_icon_summary">国际版 MIUI 不需要。</string>
     <string name="module_not_enabled_summary">已经启用？点此结束运行，然后再次打开模块设置</string>
     <string name="module_not_enabled_title">模块尚未启用！</string>
     <string name="system_ui_app_name">系统界面</string>
-    <string name="restore_nearby_sharing_tile_title">阻止系统界面隐藏附近分享快速设置磁贴</string>
-    <string name="restore_nearby_sharing_tile_summary">国际版 MIUI 不需要。</string>
+    <string name="restore_nearby_sharing_tile_title">恢复附近分享快速设置磁贴</string>
     <string name="behavior_record_system_app_whitelist_title">应用行为记录系统应用白名单</string>
     <string name="behavior_record_system_app_whitelist_summary">将部分系统应用列入白名单，防止隐私信息保护通知吓到不知道如何关闭它们的用户。</string>
     <string name="original_default_open_setting_title">将应用详情中“消除默认操作”改为“默认打开”设置</string>
@@ -50,7 +48,7 @@
     <string name="force_support_playbackcapture_title">强制启用原生录音支持</string>
     <string name="notification_channel_setting_title">打开通知频道设置</string>
     <string name="notification_channel_setting_summary">打开通知菜单的设置会导航至频道设置而不是应用通用通知设置</string>
-    <string name="restore_google_feed_title">替换负一屏为 Google Feed</string>
     <string name="restore_google_search_title">替换搜索为 Google 搜索</string>
-    <string name="restore_google_feed_summary">如果无法滑动到负一屏，请强行停止 Google</string>
+    <string name="restore_switch_minus_screen_title">恢复切换负一屏</string>
+    <string name="restore_switch_minus_screen_summary">如果使用谷歌探索无法滑动到负一屏，请强行停止 Google</string>
 </resources>

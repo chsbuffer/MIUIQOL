@@ -5,13 +5,13 @@
     <string name="behavior_record_enhance_title">應用行為記錄增強</string>
     <string name="behavior_record_enhance_summary">查看應用行為記錄不過濾白名單應用、系統應用。</string>
     <string name="system_app_wlan_control_title">系統應用 Wi-Fi 連網限制</string>
-    <string name="system_app_wlan_control_summary">- 阻止手機管家自行恢復系統應用 Wi-Fi 連網\n- 顯示系統應用連線控制 Wi-Fi 連線開關\n\n要查看系統應用連線控制，請前往手機管家-萬能工具箱-應用連線控制-(數據)-系統應用，在列表中點擊要設定的應用。</string>
+    <string name="system_app_wlan_control_summary">- 阻止手機管家自行恢復系統應用 Wi-Fi 連網\n- 顯示系統應用連線控制 Wi-Fi 連線開關</string>
     <string name="enable_all_text_view_title">啟用所有 TextView</string>
     <string name="enable_all_text_view_summary">- 啟用系統應用 Wi-Fi 連線控制開關\n- 跳過警告時間 (自行無視倒數計時數字)\n- ……\n\n*為不可預期的後果請做好準備。</string>
     <string name="lock_one_hundred_title">手機管家分數鎖定100分</string>
     <string name="lock_one_hundred_summary">同 WooBox for MIUI 鎖定100分</string>
     <string name="system_launcher_app_name">系統桌面</string>
-    <string name="restore_google_icon_title">阻止系統桌面隱藏 Google 桌面圖標</string>
+    <string name="restore_google_icon_title">恢復 Google 桌面圖標</string>
     <string name="screenshot_app_name">螢幕截圖</string>
     <string name="save_to_pictures_title">截圖保存到 Pictures/Screenshots</string>
     <string name="screen_recorder_app_name">螢幕錄製</string>
@@ -27,12 +27,10 @@
     <string name="app_name_title">MIUI 生活品質提升</string>
     <string name="app_name_summary">MIUI QOL\n由 ChsBuffer 製作\n翻譯：聖小熊 (Github: @a406010503)</string>
     <string name="app_description">MIUI 生活品質提升</string>
-    <string name="restore_google_icon_summary">國際版 MIUI 不需要。</string>
     <string name="module_not_enabled_summary">已經啟用？ 點此結束應用程式執行，然後再次打開模組設定</string>
     <string name="module_not_enabled_title">模組尚未啟用！</string>
     <string name="system_ui_app_name">系統介面</string>
-    <string name="restore_nearby_sharing_tile_title">阻止系統介面隱藏鄰近分享的快捷設定磁貼</string>
-    <string name="restore_nearby_sharing_tile_summary">國際版 MIUI 不需要。</string>
+    <string name="restore_nearby_sharing_tile_title">恢復鄰近分享的快捷設定磁貼</string>
     <string name="behavior_record_system_app_whitelist_title">應用行為記錄系統應用白名單</string>
     <string name="behavior_record_system_app_whitelist_summary">將部分系統應用列入白名單，這樣隱私保護通知就不會嚇到不知道如何關閉它們的用戶。</string>
     <string name="original_default_open_setting_title">將應用詳情中「消除預設操作」改為「預設為開啟」設定</string>
@@ -50,4 +48,7 @@
     <string name="force_support_playbackcapture_title">強制啟用原生錄音支援</string>
     <string name="notification_channel_setting_title">開啟頻道設置</string>
     <string name="notification_channel_setting_summary">開啟通知功能表的設置會導航至頻道設置而不是應用通用通知設置</string>
+    <string name="restore_google_search_title">將搜尋欄替換為 Google 搜尋</string>
+    <string name="restore_switch_minus_screen_title">恢復切換負一屏</string>
+    <string name="restore_switch_minus_screen_summary">如果使用 Google Discover 無法切換到負一屏，請强制停止 Google 應用。</string>
 </resources>

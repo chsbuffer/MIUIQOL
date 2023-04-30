@@ -5,13 +5,13 @@
     <string name="behavior_record_enhance_title">App behavior record enhance</string>
     <string name="behavior_record_enhance_summary">View all app behavior does not filter whitelisted applications and system applications.</string>
     <string name="system_app_wlan_control_title">System apps\' WLAN setting</string>
-    <string name="system_app_wlan_control_summary">- Prevent Security app from recovering system apps\' WLAN connection setting\n- Show System apps\' WLAN setting\n\nTo check the system apps\' network setting, please go to Security app\'s Toolbox - Apps\' network settings - (Mobile Data) - System apps, and click the app in the list.</string>
+    <string name="system_app_wlan_control_summary">- Prevent Security app from recovering system apps\' WLAN connection setting\n- Show System apps\' WLAN setting</string>
     <string name="enable_all_text_view_title">Enable all TextView</string>
     <string name="enable_all_text_view_summary">- Enable System apps\' WLAN setting\n- Skip warning time (Ignore the countdown numbers by yourself)\n- ……\n\n*Prepare for unforeseen consequences.</string>
     <string name="lock_one_hundred_title">Set 100 points on Security app</string>
     <string name="lock_one_hundred_summary">As same as WooBox for MIUI Set 100 points on Security app</string>
     <string name="system_launcher_app_name">System Launcher</string>
-    <string name="restore_google_icon_title">Prevent the System Launcher from hiding the Google shortcut</string>
+    <string name="restore_google_icon_title">Restore Google shortcut</string>
     <string name="screenshot_app_name">Screenshot</string>
     <string name="save_to_pictures_title">Save screenshots to Pictures/Screenshots</string>
     <string name="screen_recorder_app_name">ScreenRecorder</string>
@@ -27,12 +27,10 @@
     <string name="app_name_title">MIUI Quality of Life Improvement</string>
     <string name="app_name_summary">MIUI QOL\nMade casually by ChsBuffer</string>
     <string name="app_description">MIUI Quality of Life Improvement</string>
-    <string name="restore_google_icon_summary">MIUI Chinese version only.</string>
     <string name="module_not_enabled_summary">Already enabled? Click here to stop the module, then open the module settings again.</string>
     <string name="module_not_enabled_title">Module is not enabled!</string>
     <string name="system_ui_app_name">SystemUI</string>
-    <string name="restore_nearby_sharing_tile_title">Prevent the SystemUI from hiding the Nearby Sharing Quick Settings Tile</string>
-    <string name="restore_nearby_sharing_tile_summary">MIUI Chinese version only.</string>
+    <string name="restore_nearby_sharing_tile_title">Restore Nearby Sharing Quick Settings Tile</string>
     <string name="behavior_record_system_app_whitelist_title">App Behavior Record system applications whitelist</string>
     <string name="behavior_record_system_app_whitelist_summary">Whitelisted some system applications to prevent Privacy Protection Notifications from scaring users who don\'t know how to turn them off.</string>
     <string name="original_default_open_setting_title">Change App Info \"Clear defaults\" to \"Open by default\"</string>
@@ -51,6 +49,6 @@
     <string name="notification_channel_setting_title" >Open channel settings</string>
     <string name="notification_channel_setting_summary">Opening settings from notification menu leads to channel settings instead of app\'s common notification settings</string>
     <string name="restore_google_search_title">Search bar opens Google Search</string>
-    <string name="restore_google_feed_title">Replace App Vault into Google Feed</string>
-    <string name="restore_google_feed_summary">Force stop Google App if you can\'t swipe to -1 screen</string>
+    <string name="restore_switch_minus_screen_title">Restore switch -1 screen</string>
+    <string name="restore_switch_minus_screen_summary">If you can\'t swipe to -1 screen when using Google Discover, force stop Google App</string>
 </resources>
