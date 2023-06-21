@@ -5,19 +5,18 @@ import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.BuildConfig
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
-import io.luckypray.dexkit.DexKitBridge
+import io.github.chsbuffer.miuihelper.util.dexKit
 import io.luckypray.dexkit.enums.FieldUsingType
 import miui.os.Build
 
-class IntlEnableBehaviorRecord(val dexKit: DexKitBridge) : Hook() {
+class IntlEnableBehaviorRecord(val dexKitCache: DexKitCache) : Hook() {
     override fun init(classLoader: ClassLoader) {
         if ((!xPrefs.getBoolean("behavior_record_enhance", true)
                     || !Build.IS_INTERNATIONAL_BUILD)
             && !BuildConfig.DEBUG
         ) return
 
-        val k = dexKit.findMethodUsingString { usingString = "initTolerateApps by cloud success" }
-            .single().declaringClassSig
+        val k = dexKitCache.behavior_shouldIgnore.declaringClassSig
 
         val spoofCN = BooleanDuringMethod(
             XposedHelpers.findClass(

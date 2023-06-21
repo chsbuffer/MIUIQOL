@@ -10,7 +10,9 @@ import io.github.chsbuffer.miuihelper.hooks.home.RestoreSwitchMinusScreen
 import io.github.chsbuffer.miuihelper.hooks.screenrecorder.ForceSupportPlaybackCapture
 import io.github.chsbuffer.miuihelper.hooks.screenrecorder.SaveToMovies
 import io.github.chsbuffer.miuihelper.hooks.screenshot.SaveToPictures
-import io.github.chsbuffer.miuihelper.hooks.securitycenter.AppDetails
+import io.github.chsbuffer.miuihelper.hooks.securitycenter.AppDetailsStockOpenDefaultSettings
+import io.github.chsbuffer.miuihelper.hooks.securitycenter.AppDetailsSystemAppWlanControl
+import io.github.chsbuffer.miuihelper.hooks.securitycenter.DexKitCache
 import io.github.chsbuffer.miuihelper.hooks.securitycenter.EnabledAllTextView
 import io.github.chsbuffer.miuihelper.hooks.securitycenter.IntlEnableBehaviorRecord
 import io.github.chsbuffer.miuihelper.hooks.securitycenter.LockOneHundred
@@ -37,14 +39,16 @@ class MainHook : IXposedHookLoadPackage {
 
             "com.miui.securitycenter" -> inContext(lpparam) { app ->
                 useDexKit(lpparam) { dexKit ->
+                    val dexKitCache = DexKitCache()
                     hooks(
                         lpparam,
-                        RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp(dexKit),
+                        RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp(dexKitCache),
                         RemoveSetSystemAppWifiRuleAllow,
                         EnabledAllTextView,
                         LockOneHundred(dexKit),
-                        AppDetails(dexKit, app),
-                        IntlEnableBehaviorRecord(dexKit)
+                        AppDetailsSystemAppWlanControl(dexKitCache, app),
+                        AppDetailsStockOpenDefaultSettings(dexKitCache, app),
+                        IntlEnableBehaviorRecord(dexKitCache)
                     )
                 }
             }

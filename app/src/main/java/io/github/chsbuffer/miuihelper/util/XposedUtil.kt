@@ -5,21 +5,28 @@ import de.robv.android.xposed.XC_MethodHook
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
+import io.github.chsbuffer.miuihelper.BuildConfig
 import io.github.chsbuffer.miuihelper.model.Hook
 import io.luckypray.dexkit.DexKitBridge
+import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor
+
+
+fun dlog(text: String) {
+    if (BuildConfig.DEBUG)
+        XposedBridge.log(text)
+}
+
+fun dlog(t: Throwable) {
+    if (BuildConfig.DEBUG)
+        XposedBridge.log(t)
+}
 
 fun hooks(lpparam: LoadPackageParam, vararg hooks: Hook) {
-    for (hook in hooks) {
-        try {
+    hooks.forEach { hook ->
+        runCatching {
             hook.init(lpparam)
-        } catch (e: Exception) {
-            XposedBridge.log(
-                "Failed to do ${hook::class.java.simpleName} hook\n${e}"
-            )
-        } catch (e: Error) {
-            XposedBridge.log(
-                "Failed to do ${hook::class.java.simpleName} hook\n${e}"
-            )
+        }.onFailure {
+            XposedBridge.log("Failed to do ${hook::class.java.simpleName} hook\n${it}")
         }
     }
 }
@@ -34,9 +41,19 @@ fun inContext(lpparam: LoadPackageParam, f: (Application) -> Unit) {
     })
 }
 
+val dexKit: DexKitBridge
+    get() = _dexKit!!
+private var _dexKit: DexKitBridge? = null
+
 fun useDexKit(lpparam: LoadPackageParam, f: (DexKitBridge) -> Unit) {
     System.loadLibrary("dexkit")
     DexKitBridge.create(lpparam.appInfo.sourceDir)?.use {
-        f(it)
+        _dexKit = it
+        val ret = f(it)
+        _dexKit = null
+        return ret
     } ?: XposedBridge.log("DexKitBridge create failed")
 }
+
+val DexMethodDescriptor.method
+    get() = "${this.name}${this.signature}"

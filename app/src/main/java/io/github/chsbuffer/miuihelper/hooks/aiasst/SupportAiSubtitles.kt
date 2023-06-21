@@ -26,16 +26,18 @@ object SupportAiSubtitles : Hook() {
             Context::class.java,
             XC_MethodReplacement.returnConstant(true)
         )
-        XposedHelpers.findAndHookMethod(
-            clazz,
-            "deviceWhetherSupportOfflineSubtitles",
-            XC_MethodReplacement.returnConstant(true)
-        )
-        XposedHelpers.findAndHookMethod(
-            clazz,
-            "isSupportOfflineAiSubtitles",
-            android.content.Context::class.java,
-            XC_MethodReplacement.returnConstant(true)
-        )
+        runCatching {
+            XposedHelpers.findAndHookMethod(
+                clazz,
+                "deviceWhetherSupportOfflineSubtitles",
+                XC_MethodReplacement.returnConstant(true)
+            )
+            XposedHelpers.findAndHookMethod(
+                clazz,
+                "isSupportOfflineAiSubtitles",
+                android.content.Context::class.java,
+                XC_MethodReplacement.returnConstant(true)
+            )
+        }
     }
 }

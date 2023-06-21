@@ -5,13 +5,14 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.Hook
+import io.github.chsbuffer.miuihelper.util.dlog
 import io.luckypray.dexkit.DexKitBridge
 import io.luckypray.dexkit.enums.MatchType
 
 
 class LockOneHundred(val dexKit: DexKitBridge) : Hook() {
     override fun init(classLoader: ClassLoader) {
-        if (!xPrefs.getBoolean("lock_one_hundred", false))
+        if (!xPrefs.getBoolean("lock_one_hundred", true))
             return
         //防止点击重新检测
         XposedHelpers.findAndHookMethod(
@@ -26,6 +27,7 @@ class LockOneHundred(val dexKit: DexKitBridge) : Hook() {
             matchType = MatchType.CONTAINS
             methodDeclareClass = "com.miui.securityscan.scanner.ScoreManager"
         }.single()
+        dlog("securityScan_getMinusPredictScore:${minusScoreMethod.descriptor}")
 /*
     public int p() {
         int n10 = n();
