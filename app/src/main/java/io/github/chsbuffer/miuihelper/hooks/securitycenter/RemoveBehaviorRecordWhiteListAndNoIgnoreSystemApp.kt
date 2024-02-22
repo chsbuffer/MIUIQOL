@@ -28,7 +28,7 @@ class RemoveBehaviorRecordWhiteListAndNoIgnoreSystemApp(val dexKitCache: DexKitC
         "com.google.android.gms",
     )
 
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("behavior_record_enhance", true)) return
         // 去除照明弹行为记录白名单
 

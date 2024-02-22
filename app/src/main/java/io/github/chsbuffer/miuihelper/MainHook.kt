@@ -21,6 +21,7 @@ import io.github.chsbuffer.miuihelper.hooks.securitycenter.RemoveSetSystemAppWif
 import io.github.chsbuffer.miuihelper.hooks.systemui.NotificationClickInfoItemStartChannelSetting
 import io.github.chsbuffer.miuihelper.hooks.systemui.NotificationSettingsNoWhiteList
 import io.github.chsbuffer.miuihelper.hooks.systemui.RestoreCnNearby
+import io.github.chsbuffer.miuihelper.hooks.systemui.RestoreCnQuickAccessWalletTile
 import io.github.chsbuffer.miuihelper.hooks.updater.RemoveOTAValidate
 import io.github.chsbuffer.miuihelper.util.hooks
 import io.github.chsbuffer.miuihelper.util.inContext
@@ -78,12 +79,15 @@ class MainHook : IXposedHookLoadPackage {
                 SupportAiSubtitles
             )
 
-            "com.android.systemui" -> hooks(
-                lpparam,
-                RestoreCnNearby,
-                NotificationSettingsNoWhiteList,
-                NotificationClickInfoItemStartChannelSetting
-            )
+            "com.android.systemui" -> useDexKit(lpparam) { dexKit ->
+                hooks(
+                    lpparam,
+                    RestoreCnNearby(dexKit),
+                    RestoreCnQuickAccessWalletTile,
+                    NotificationSettingsNoWhiteList,
+                    NotificationClickInfoItemStartChannelSetting
+                )
+            }
         }
     }
 }

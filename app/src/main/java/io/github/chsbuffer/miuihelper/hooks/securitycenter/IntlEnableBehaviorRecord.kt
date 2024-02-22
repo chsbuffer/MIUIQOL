@@ -10,7 +10,7 @@ import io.luckypray.dexkit.enums.FieldUsingType
 import miui.os.Build
 
 class IntlEnableBehaviorRecord(val dexKitCache: DexKitCache) : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if ((!xPrefs.getBoolean("behavior_record_enhance", true)
                     || !Build.IS_INTERNATIONAL_BUILD)
             && !BuildConfig.DEBUG

@@ -16,7 +16,7 @@ import io.github.chsbuffer.miuihelper.model.Hook
 
 
 object NotificationClickInfoItemStartChannelSetting : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("notification_channel_setting", false))
             return
 

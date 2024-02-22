@@ -5,7 +5,7 @@ import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.Hook
 
 object EnabledAllTextView : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("enable_all_text_view", true))
             return
         // this exposed lots of disabled settings such as set system app wlan restrict

@@ -7,7 +7,7 @@ import io.github.chsbuffer.miuihelper.model.Hook
 
 
 object SupportAiSubtitles : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("support_ai_subtitles", true))
             return
         val clazz = XposedHelpers.findClass(

@@ -7,7 +7,7 @@ import io.github.chsbuffer.miuihelper.model.Hook
 
 // DO_NOT_USE_OR_YOU_WILL_BE_FIRED
 object FixAlbum : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         XposedHelpers.findAndHookMethod(
             "com.miui.gallery.model.dto.Album",
             classLoader,

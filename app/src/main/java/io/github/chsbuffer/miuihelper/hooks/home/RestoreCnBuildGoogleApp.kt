@@ -7,7 +7,7 @@ import io.github.chsbuffer.miuihelper.model.Hook
 import miui.os.Build
 
 object RestoreCnBuildGoogleApp : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("restore_google_icon", true) || Build.IS_INTERNATIONAL_BUILD)
             return
 

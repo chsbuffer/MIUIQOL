@@ -51,4 +51,5 @@
     <string name="restore_google_search_title">Search bar opens Google Search</string>
     <string name="restore_switch_minus_screen_title">Restore switch -1 screen</string>
     <string name="restore_switch_minus_screen_summary">If you can\'t swipe to -1 screen when using Google Discover, force stop Google App</string>
+    <string name="restore_wallet_tile_title">Restore Quick Access Wallet Tile</string>
 </resources>

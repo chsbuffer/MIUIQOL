@@ -11,7 +11,7 @@ import io.luckypray.dexkit.enums.MatchType
 
 
 class LockOneHundred(val dexKit: DexKitBridge) : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("lock_one_hundred", true))
             return
         //防止点击重新检测

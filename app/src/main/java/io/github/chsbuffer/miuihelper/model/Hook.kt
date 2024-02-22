@@ -12,11 +12,17 @@ abstract class Hook {
         )
     }
 
-    open fun init(lpparam: LoadPackageParam) {
-        init(lpparam.classLoader)
+    protected lateinit var lpparam: LoadPackageParam
+    protected lateinit var classLoader: ClassLoader
+
+    fun init(lpparam: LoadPackageParam) {
+        this.lpparam = lpparam
+        this.classLoader = lpparam.classLoader
+
+        init()
     }
 
-    open fun init(classLoader: ClassLoader) {
+    open fun init() {
 
     }
 }

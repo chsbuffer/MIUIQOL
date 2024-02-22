@@ -13,7 +13,7 @@ import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor
 
 fun dlog(text: String) {
     if (BuildConfig.DEBUG)
-        XposedBridge.log(text)
+        XposedBridge.log("[MIUI QOL] " + text)
 }
 
 fun dlog(t: Throwable) {

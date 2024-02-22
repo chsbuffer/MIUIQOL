@@ -18,7 +18,7 @@ class AppDetailsSystemAppWlanControl(val dexKitCache: DexKitCache, val app: Appl
     Hook() {
 
     @SuppressLint("DiscouragedApi")
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("system_app_wlan_control", true)) return
 
         // init lazy

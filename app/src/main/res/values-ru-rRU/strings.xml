@@ -51,4 +51,5 @@
     <string name="restore_google_search_title">Строка поиска открывает поиск Google</string>
     <string name="restore_switch_minus_screen_title">Восстановление переключения -1 экрана</string>
     <string name="restore_switch_minus_screen_summary">Если Вы не можете перейти на -1 экран при использовании Google Discover, принудительно остановите приложение Google</string>
+    <string name="restore_wallet_tile_title">Восстановление плитки Кошелек в центре управления</string>
 </resources>

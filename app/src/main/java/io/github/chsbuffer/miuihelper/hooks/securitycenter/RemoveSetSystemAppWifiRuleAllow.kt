@@ -8,7 +8,7 @@ import io.github.chsbuffer.miuihelper.model.Hook
 
 
 object RemoveSetSystemAppWifiRuleAllow : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if(!xPrefs.getBoolean("system_app_wlan_control",true))
             return
 

@@ -8,7 +8,7 @@ import io.luckypray.dexkit.enums.MatchType
 
 class RemoveOTAValidate(val dexKit: DexKitBridge) : Hook() {
 
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("remove_ota_validate", false))
             return
 

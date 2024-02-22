@@ -5,7 +5,7 @@ import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.Hook
 
 object ForceSupportPlaybackCapture : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("force_support_playbackcapture", true)) return
 
         XposedHelpers.findAndHookMethod("android.os.SystemProperties",

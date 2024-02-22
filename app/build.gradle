@@ -6,14 +6,13 @@ plugins {
 
 android {
     compileSdk sdk
-    buildToolsVersion buildToolsVersion
 
     defaultConfig {
         applicationId 'io.github.chsbuffer.miuihelper'
         minSdk 27
-        targetSdk sdk
-        versionCode 17
-        versionName '1.1.15'
+        targetSdkVersion sdk
+        versionCode 18
+        versionName '1.1.16'
         ndk {
             abiFilters 'arm64-v8a'
         }

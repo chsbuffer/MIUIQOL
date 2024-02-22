@@ -9,7 +9,7 @@ import miui.os.Build
 
 
 object RestoreSwitchMinusScreen : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("restore_switch_minus_screen", false) || Build.IS_INTERNATIONAL_BUILD) return
 
         // 启用可以切换负一屏（即“智能助理”或“Google”）

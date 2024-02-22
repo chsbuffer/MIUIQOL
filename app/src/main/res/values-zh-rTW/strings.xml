@@ -51,4 +51,5 @@
     <string name="restore_google_search_title">將搜尋欄替換為 Google 搜尋</string>
     <string name="restore_switch_minus_screen_title">恢復切換負一屏</string>
     <string name="restore_switch_minus_screen_summary">如果使用 Google Discover 無法切換到負一屏，請强制停止 Google 應用。</string>
+    <string name="restore_wallet_tile_title">恢復錢包的快捷設定磁貼</string>
 </resources>

@@ -6,7 +6,7 @@ import io.github.chsbuffer.miuihelper.model.Hook
 
 object SaveToMovies : Hook() {
     @Suppress("UNCHECKED_CAST")
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean("save_to_movies", true)) return
 
         /**/

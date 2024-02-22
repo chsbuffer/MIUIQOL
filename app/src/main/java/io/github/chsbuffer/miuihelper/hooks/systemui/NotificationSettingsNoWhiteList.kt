@@ -5,7 +5,7 @@ import io.github.chsbuffer.miuihelper.model.Hook
 import miui.os.Build
 
 object NotificationSettingsNoWhiteList : Hook() {
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         if (!xPrefs.getBoolean(
                 "notification_settings_no_white_list",
                 false

@@ -13,7 +13,7 @@ object SuggestPermissions : Hook() {
 
     private const val DefaultAccept = PERM_ID_AUTOSTART or PERM_ID_INSTALL_SHORTCUT
 
-    override fun init(classLoader: ClassLoader) {
+    override fun init() {
         val clazz =
             XposedHelpers.findClass("com.lbe.security.bean.AppPermissionConfig", classLoader)
 

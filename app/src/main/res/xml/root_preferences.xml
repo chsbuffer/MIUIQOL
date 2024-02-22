@@ -70,6 +70,11 @@
             android:singleLineTitle="false"
             android:title="@string/restore_nearby_sharing_tile_title" />
         <SwitchPreference
+            android:defaultValue="true"
+            android:key="restore_wallet_tile"
+            android:singleLineTitle="false"
+            android:title="@string/restore_wallet_tile_title" />
+        <SwitchPreference
             android:defaultValue="false"
             android:key="notification_settings_no_white_list"
             android:singleLineTitle="false"
