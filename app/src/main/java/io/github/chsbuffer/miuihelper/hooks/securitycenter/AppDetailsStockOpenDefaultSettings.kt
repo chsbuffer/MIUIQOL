@@ -146,6 +146,9 @@ class AppDetailsStockOpenDefaultSettings(val dexKitCache: DexKitCache, val app: 
 
     private fun copyLinearLayoutStyle(thiz: LinearLayout, that: LinearLayout) {
         thiz.layoutParams = that.layoutParams
+        thiz.minimumHeight = that.minimumHeight
+        thiz.background = that.background
+
         thiz.setPadding(
             that.paddingLeft, that.paddingTop, that.paddingRight, that.paddingBottom
         )
