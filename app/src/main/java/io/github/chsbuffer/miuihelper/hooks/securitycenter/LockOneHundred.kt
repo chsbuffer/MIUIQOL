@@ -5,29 +5,23 @@ import de.robv.android.xposed.XC_MethodReplacement
 import de.robv.android.xposed.XposedBridge
 import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.Hook
-import io.github.chsbuffer.miuihelper.util.dlog
-import io.luckypray.dexkit.DexKitBridge
-import io.luckypray.dexkit.enums.MatchType
+import io.github.chsbuffer.miuihelper.util.logSearch
+import org.luckypray.dexkit.DexKitBridge
+import org.luckypray.dexkit.query.enums.StringMatchType
 
 
 class LockOneHundred(val dexKit: DexKitBridge) : Hook() {
     override fun init() {
-        if (!xPrefs.getBoolean("lock_one_hundred", true))
-            return
+        if (!xPrefs.getBoolean("lock_one_hundred", true)) return
         //防止点击重新检测
         XposedHelpers.findAndHookMethod(
-            "com.miui.securityscan.ui.main.MainContentFrame", classLoader,
+            "com.miui.securityscan.ui.main.MainContentFrame",
+            classLoader,
             "onClick",
             View::class.java,
             XC_MethodReplacement.returnConstant(null)
         )
         //锁定100分
-        val minusScoreMethod = dexKit.findMethodUsingString {
-            usingString = "getMinusPredictScore"
-            matchType = MatchType.CONTAINS
-            methodDeclareClass = "com.miui.securityscan.scanner.ScoreManager"
-        }.single()
-        dlog("securityScan_getMinusPredictScore:${minusScoreMethod.descriptor}")
 /*
     public int p() {
         int n10 = n();
@@ -44,9 +38,17 @@ class LockOneHundred(val dexKit: DexKitBridge) : Hook() {
         }
 ...
  */
+        val minusScoreMethod = logSearch("securityScan_getMinusPredictScore", { it.descriptor }) {
+            dexKit.getClassData("com.miui.securityscan.scanner.ScoreManager")!!.findMethod {
+                matcher {
+                    addUsingString("getMinusPredictScore", StringMatchType.Contains)
+                }
+                findFirst = true
+            }.single()
+        }
+
         XposedBridge.hookMethod(
-            minusScoreMethod.getMethodInstance(classLoader),
-            XC_MethodReplacement.returnConstant(0)
+            minusScoreMethod.getMethodInstance(classLoader), XC_MethodReplacement.returnConstant(0)
         )
     }
 }

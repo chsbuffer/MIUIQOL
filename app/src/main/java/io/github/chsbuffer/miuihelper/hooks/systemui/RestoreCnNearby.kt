@@ -7,9 +7,10 @@ import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
 import io.github.chsbuffer.miuihelper.util.dlog
-import io.luckypray.dexkit.DexKitBridge
-import io.luckypray.dexkit.enums.MatchType
+import io.github.chsbuffer.miuihelper.util.method
 import miui.os.Build
+import org.luckypray.dexkit.DexKitBridge
+import org.luckypray.dexkit.query.enums.StringMatchType
 import java.lang.reflect.Method
 
 class RestoreCnNearby(val dexKit: DexKitBridge) : Hook() {
@@ -46,24 +47,35 @@ class RestoreCnNearby(val dexKit: DexKitBridge) : Hook() {
         )
 
         if (!Build.IS_INTERNATIONAL_BUILD) {
-            dexKit.findMethodUsingString {
-                usingString = "custom(com.google.android.gms/.nearby.sharing.SharingTileService)"
-                matchType = MatchType.FULL
-            }.forEach { m ->
-                dlog("createMiuiTile is: ${m.descriptor}")
+            dexKit.findMethod {
+                matcher {
+                    addUsingString(
+                        "custom(com.google.android.gms/.nearby.sharing.SharingTileService)",
+                        StringMatchType.Equals
+                    )
+                }
+            }.forEach { createMiuiTileMethodData ->
+                dlog("createMiuiTile is: ${createMiuiTileMethodData.method}")
 
-                val isInternational = dexKit.findMethodUsingField {
-                    fieldType = "Z"
-                    callerMethodDescriptor = m.descriptor
-                }.values.single().first { f -> f.name.contains("INTERNATIONAL") }
-                    .also { f -> dlog("createMiuiTile using IS_INTERNATIONAL field: ${f.descriptor}") }
+                dexKit.findField {
+                    matcher {
+                        type = "boolean"
+                        addReadMethod(createMiuiTileMethodData.descriptor)
+                        name("INTERNATIONAL", StringMatchType.Contains)
+                    }
+                    findFirst = true
+                }.single().also { isInternationalFieldData ->
+                    dlog("${createMiuiTileMethodData.method} using IS_INTERNATIONAL field: ${isInternationalFieldData.descriptor}")
 
-                val hook = BooleanDuringMethod(
-                    XposedHelpers.findClass(isInternational.declaringClassName, classLoader),
-                    isInternational.name,
-                    true
-                )
-                XposedBridge.hookMethod(m.getMethodInstance(classLoader), hook)
+                    val hook = BooleanDuringMethod(
+                        XposedHelpers.findClass(
+                            isInternationalFieldData.declaredClassName, classLoader
+                        ), isInternationalFieldData.name, true
+                    )
+                    XposedBridge.hookMethod(
+                        createMiuiTileMethodData.getMethodInstance(classLoader), hook
+                    )
+                }
             }
         }
 
@@ -76,23 +88,27 @@ class RestoreCnNearby(val dexKit: DexKitBridge) : Hook() {
     }
 
     private fun findGetPluginClassLoaderMethod(): Method {
-        // HyperOS 1.0
-        // MIUI 14 com.android.systemui.shared.plugins.PluginInstance$Factory.getClassLoader(android.content.pm.ApplicationInfo, java.lang.ClassLoader)
-        val methodDescriptor = dexKit.findMethodUsingString {
-            usingString = "Cannot get class loader for non-privileged plugin. Src:"
-            matchType = MatchType.FULL
-        }.firstOrNull() ?:
-        // MIUI 13 com.android.systemui.shared.plugins.PluginManagerImpl.getClassLoader(android.content.pm.ApplicationInfo)
-        dexKit.findMethodUsingString {
-            usingString = "Cannot get class loader for non-whitelisted plugin. Src:"
-            matchType = MatchType.FULL
-        }.firstOrNull() ?:
-        // oops
-        throw Exception("SystemUI plugin loading method not found.")
-
-        return methodDescriptor.let {
-            dlog("System UI plugin loader method is: ${it.descriptor}")
-            it.getMethodInstance(classLoader)
-        }
+        val methodDescriptor = dexKit.batchFindMethodUsingStrings {
+            addSearchGroup {
+                // HyperOS 1.0: maybe somewhere else, don't care, just do dexKit search.
+                // MIUI 14: com.android.systemui.shared.plugins.PluginInstance$Factory.getClassLoader(android.content.pm.ApplicationInfo, java.lang.ClassLoader)
+                groupName = "MIUI 14"
+                usingStrings(
+                    listOf("Cannot get class loader for non-privileged plugin. Src:"),
+                    StringMatchType.Equals
+                )
+            }
+            addSearchGroup {
+                // MIUI 13 com.android.systemui.shared.plugins.PluginManagerImpl.getClassLoader(android.content.pm.ApplicationInfo)
+                groupName = "MIUI 13"
+                usingStrings(
+                    listOf("Cannot get class loader for non-whitelisted plugin. Src:"),
+                    StringMatchType.Equals
+                )
+            }
+        }.values.flatten().singleOrNull()
+            ?.also { dlog("System UI plugin loader method is: ${it.descriptor}") }
+            ?: throw Exception("System UI plugin loader method not found.")
+        return methodDescriptor.getMethodInstance(classLoader)
     }
 }

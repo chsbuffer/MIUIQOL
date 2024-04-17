@@ -7,18 +7,16 @@ import de.robv.android.xposed.XposedHelpers
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam
 import io.github.chsbuffer.miuihelper.BuildConfig
 import io.github.chsbuffer.miuihelper.model.Hook
-import io.luckypray.dexkit.DexKitBridge
-import io.luckypray.dexkit.descriptor.member.DexMethodDescriptor
-
+import org.luckypray.dexkit.DexKitBridge
+import org.luckypray.dexkit.result.MethodData
+import kotlin.system.measureTimeMillis
 
 fun dlog(text: String) {
-    if (BuildConfig.DEBUG)
-        XposedBridge.log("[MIUI QOL] " + text)
+    if (BuildConfig.DEBUG) XposedBridge.log("[MIUI QOL] " + text)
 }
 
-fun dlog(t: Throwable) {
-    if (BuildConfig.DEBUG)
-        XposedBridge.log(t)
+fun log(text: String) {
+    XposedBridge.log("[MIUI QOL] " + text)
 }
 
 fun hooks(lpparam: LoadPackageParam, vararg hooks: Hook) {
@@ -26,7 +24,7 @@ fun hooks(lpparam: LoadPackageParam, vararg hooks: Hook) {
         runCatching {
             hook.init(lpparam)
         }.onFailure {
-            XposedBridge.log("Failed to do ${hook::class.java.simpleName} hook\n${it}")
+            log("Failed to do ${hook::class.java.simpleName} hook\n${it}")
         }
     }
 }
@@ -47,13 +45,41 @@ private var _dexKit: DexKitBridge? = null
 
 fun useDexKit(lpparam: LoadPackageParam, f: (DexKitBridge) -> Unit) {
     System.loadLibrary("dexkit")
-    DexKitBridge.create(lpparam.appInfo.sourceDir)?.use {
+    runCatching {
+        DexKitBridge.create(lpparam.appInfo.sourceDir)
+    }.onSuccess {
         _dexKit = it
-        val ret = f(it)
+        f(it)
+        _dexKit!!.close()
         _dexKit = null
-        return ret
-    } ?: XposedBridge.log("DexKitBridge create failed")
+    }.onFailure {
+        log("DexKitBridge create failed for ${lpparam.packageName}")
+    }
 }
 
-val DexMethodDescriptor.method
-    get() = "${this.name}${this.signature}"
+
+/** 记录错误，记录converter转换后的结果 */
+inline fun <T> logSearch(name: String, converter: (T) -> String, f: () -> T): T {
+    if (BuildConfig.DEBUG) {
+        var timeInMillis: Long = 0
+        return runCatching {
+            val ret: T
+            timeInMillis = measureTimeMillis {
+                ret = f()
+            }
+            ret
+        }.onSuccess {
+            dlog("$name: ${converter(it)}\ttime cost: $timeInMillis ms")
+        }.onFailure {
+            log("find $name failed: $it")
+        }.getOrThrow()
+    } else {
+        return runCatching(f).onFailure {
+            log("find $name failed: $it")
+        }.getOrThrow()
+    }
+}
+
+
+val MethodData.method
+    get() = "${this.name}${this.methodSign}"

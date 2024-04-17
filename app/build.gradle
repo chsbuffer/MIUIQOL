@@ -57,9 +57,9 @@ android {
 
 dependencies {
     implementation 'androidx.annotation:annotation:1.7.1'
+    implementation 'org.luckypray:dexkit:2.0.1'
     compileOnly 'de.robv.android.xposed:api:82'
     compileOnly project(path: ':miuistub')
     implementation("dev.rikka.tools.refine:runtime:$refine")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'org.luckypray:DexKit:1.1.8'
 }
