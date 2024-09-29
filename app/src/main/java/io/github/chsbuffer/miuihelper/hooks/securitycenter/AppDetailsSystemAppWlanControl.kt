@@ -12,6 +12,7 @@ import de.robv.android.xposed.XposedHelpers
 import io.github.chsbuffer.miuihelper.BuildConfig
 import io.github.chsbuffer.miuihelper.model.BooleanDuringMethod
 import io.github.chsbuffer.miuihelper.model.Hook
+import io.github.chsbuffer.miuihelper.util.log
 
 
 class AppDetailsSystemAppWlanControl(val dexKitCache: DexKitCache, val app: Application) :
@@ -21,6 +22,13 @@ class AppDetailsSystemAppWlanControl(val dexKitCache: DexKitCache, val app: Appl
     override fun init() {
         if (!xPrefs.getBoolean("system_app_wlan_control", true)) return
 
+        val net_id = app.resources.getIdentifier("am_detail_net", "id", app.packageName)
+
+        if (net_id == 0) {
+            log("network control has been removed from app details.")
+            return
+        }
+
         // init lazy
         dexKitCache.appDetails_isSystemAppField
         dexKitCache.appDetails_genNetCtrlSummaryMethod
@@ -29,8 +37,6 @@ class AppDetailsSystemAppWlanControl(val dexKitCache: DexKitCache, val app: Appl
 
         val appDetailClz =
             XposedHelpers.findClass("com.miui.appmanager.ApplicationsDetailsActivity", classLoader)
-
-        val net_id = app.resources.getIdentifier("am_detail_net", "id", app.packageName)
 
         /* "联网控制"对话框确定 onClick */
         val saveNetCtrlDialogOnClickMethod = appDetailClz.declaredClasses.first {

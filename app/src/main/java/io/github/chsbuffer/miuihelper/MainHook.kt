@@ -85,7 +85,7 @@ class MainHook : IXposedHookLoadPackage {
                     RestoreCnNearby(dexKit),
                     RestoreCnQuickAccessWalletTile,
                     NotificationSettingsNoWhiteList,
-                    NotificationClickInfoItemStartChannelSetting
+                    NotificationClickInfoItemStartChannelSetting(dexKit)
                 )
             }
         }

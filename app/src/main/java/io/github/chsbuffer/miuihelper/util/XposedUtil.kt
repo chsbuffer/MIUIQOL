@@ -25,6 +25,7 @@ fun hooks(lpparam: LoadPackageParam, vararg hooks: Hook) {
             hook.init(lpparam)
         }.onFailure {
             log("Failed to do ${hook::class.java.simpleName} hook\n${it}")
+            dlog(it.stackTraceToString())
         }
     }
 }

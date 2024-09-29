@@ -27,4 +27,6 @@ android {
 dependencies {
     annotationProcessor "dev.rikka.tools.refine:annotation-processor:$refine"
     compileOnly "dev.rikka.tools.refine:annotation:$refine"
+    def preference_version = "1.2.1"
+    compileOnly "androidx.preference:preference:$preference_version"
 }

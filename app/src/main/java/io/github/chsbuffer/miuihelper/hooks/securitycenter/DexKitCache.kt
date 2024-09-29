@@ -9,8 +9,9 @@ import org.luckypray.dexkit.query.enums.StringMatchType
 
 class DexKitCache {
 
-    val appDetails_activity by lazy(LazyThreadSafetyMode.NONE) {
+    val appDetailsView by lazy(LazyThreadSafetyMode.NONE) {
         // getClassData 很便宜，不需要前置
+        dexKit.getClassData("com.miui.appmanager.fragment.ApplicationsDetailsFragment") ?:
         dexKit.getClassData("com.miui.appmanager.ApplicationsDetailsActivity")!!
     }
 
@@ -27,9 +28,9 @@ class DexKitCache {
         //          i2 = R.string.app_manager_default_close_summary;
         //      }
         logSearch("appDetails_onLoadDataFinished", { it.method }) {
-            appDetails_activity.findMethod {
+            appDetailsView.findMethod {
                 matcher {
-                    addUsingString("enter_way", StringMatchType.Equals)
+                    addEqString("enter_way")
                     returnType = "void"
                     paramTypes = listOf("", "")
                 }
@@ -51,13 +52,12 @@ class DexKitCache {
         //      }
         //  ...
         logSearch("appDetails_genNetCtrlSummaryMethod", { it.method }) {
-            appDetails_activity.findMethod {
+            appDetailsView.findMethod {
                 matcher {
                     opCodes(listOf(0x55, 0x39, 0x55, 0x39, 0x55, 0x38), OpCodeMatchType.StartsWith)
                     returnType = "java.lang.String"
                     paramTypes = listOf()
                 }
-                findFirst = true
             }.single()
         }
     }
@@ -68,13 +68,12 @@ class DexKitCache {
         //  Z();                                      // <- Z
         //  str = "network_control";
         logSearch("appDetails_netCtrlShowDialogMethod", { it.method }) {
-            appDetails_activity.findMethod {
+            appDetailsView.findMethod {
                 matcher {
                     opCodes(listOf(0x55, 0x5c, 0x55, 0x5c, 0x55, 0x5c), OpCodeMatchType.StartsWith)
                     returnType = "void"
                     paramTypes = listOf()
                 }
-                findFirst = true
             }.single()
         }
     }
@@ -89,13 +88,12 @@ class DexKitCache {
         //    this.o0 = (applicationInfo.flags & 1) != 0
         //    ...
         logSearch("appDetails_isSystemAppField", { it.name }) {
-            appDetails_activity.findField {
+            appDetailsView.findField {
                 matcher {
                     addWriteMethod("Lcom/miui/appmanager/ApplicationsDetailsActivity;->initView()V")
                     addReadMethod(appDetails_genNetCtrlSummaryMethod.descriptor)
                     type = "boolean"
                 }
-                findFirst = true
             }.single()
         }
     }
@@ -154,7 +152,6 @@ class DexKitCache {
                 matcher {
                     addInvoke(getListForBehaviorWhite.descriptor)
                 }
-                findFirst = true
             }.single()
         }
     }
