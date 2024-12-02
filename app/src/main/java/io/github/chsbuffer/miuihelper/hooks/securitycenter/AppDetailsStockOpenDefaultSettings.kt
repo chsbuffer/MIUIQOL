@@ -83,7 +83,7 @@ class AppDetailsStockOpenDefaultSettings(val dexKitCache: DexKitCache, val app: 
 
         val appDetailsView = dexKitCache.appDetailsView.getInstance(classLoader)
 
-        if (appDetailsView.isAssignableFrom(Activity::class.java)) {
+        if (Activity::class.java.isAssignableFrom(appDetailsView)) {
             // v1, v2
             XposedBridge.hookMethod(dexKitCache.appDetails_OnLoadDataFinishMethod.getMethodInstance(
                 classLoader
